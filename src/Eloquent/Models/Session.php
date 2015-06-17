@@ -24,13 +24,4 @@ class Session extends Model
         'owner_id',
         'client_redirect_uri',
     ];
-
-
-    /**
-     * @return Client
-     */
-    public function client()
-    {
-        return $this->belongsTo(Client::class, 'client_id');
-    }
 }

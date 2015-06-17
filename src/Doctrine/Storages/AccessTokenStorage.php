@@ -1,7 +1,7 @@
 <?php namespace Nord\Lumen\OAuth2\Doctrine\Storages;
 
 use Jenssegers\Date\Date;
-use Nord\Luemn\OAuth2\Exceptions\AccessTokenNotFound;
+use Nord\Lumen\OAuth2\Exceptions\AccessTokenNotFound;
 use Nord\Lumen\OAuth2\Doctrine\Repositories\SessionRepository;
 use Nord\Lumen\OAuth2\Doctrine\Entities\AccessToken;
 use Nord\Lumen\OAuth2\Doctrine\Repositories\AccessTokenRepository;

@@ -26,15 +26,6 @@ class RefreshToken extends Model
 
 
     /**
-     * @return AccessToken
-     */
-    public function accessToken()
-    {
-        return $this->belongsTo(AccessToken::class, 'access_token_id');
-    }
-
-
-    /**
      * @param string $token
      *
      * @return RefreshToken

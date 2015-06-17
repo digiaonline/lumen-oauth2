@@ -26,15 +26,6 @@ class AccessToken extends Model
 
 
     /**
-     * @return Session
-     */
-    public function session()
-    {
-        return $this->belongsTo(Session::class, 'session_id');
-    }
-
-
-    /**
      * @param string $token
      *
      * @return AccessToken

@@ -37,7 +37,7 @@ class AccessTokenStorage extends EloquentStorage implements AccessTokenInterface
         AccessToken::create([
             'token'       => $token,
             'session_id'  => $sessionId,
-            'expire_time' => Date::createFromTimestampUTC($expireTime)->format('Y-m-d H:i:s'),
+            'expire_time' => Date::createFromTimestamp($expireTime)->format('Y-m-d H:i:s'),
         ]);
     }
 
@@ -70,7 +70,7 @@ class AccessTokenStorage extends EloquentStorage implements AccessTokenInterface
         $entity = new AccessTokenEntity($this->server);
 
         $entity->setId($accessToken->token);
-        $entity->setExpireTime($accessToken->expireTime);
+        $entity->setExpireTime(Date::createFromFormat('Y-m-d H:i:s', $accessToken->expire_time)->getTimestamp());
 
         return $entity;
     }

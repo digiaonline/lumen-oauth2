@@ -9,6 +9,7 @@ use League\OAuth2\Server\Entity\ScopeEntity;
 use League\OAuth2\Server\Entity\SessionEntity;
 use League\OAuth2\Server\Storage\SessionInterface;
 use Nord\Lumen\OAuth2\Exceptions\ClientNotFound;
+use Nord\Lumen\OAuth2\Exceptions\SessionNotFound;
 
 class SessionStorage extends EloquentStorage implements SessionInterface
 {
@@ -20,10 +21,11 @@ class SessionStorage extends EloquentStorage implements SessionInterface
     {
         $accessToken = AccessToken::findByToken($entity->getId());
 
-        $session = $accessToken->session();
+        /** @var Session $session */
+        $session = Session::find($accessToken->session_id);
 
         if ($session === null) {
-            return null;
+            throw new SessionNotFound;
         }
 
         return $this->createEntity($session);
@@ -88,7 +90,7 @@ class SessionStorage extends EloquentStorage implements SessionInterface
         $entity = new SessionEntity($this->server);
 
         $entity->setId($session->getKey());
-        $entity->setOwner($session->ownerType, $session->ownerId);
+        $entity->setOwner($session->owner_type, $session->owner_id);
 
         return $entity;
     }

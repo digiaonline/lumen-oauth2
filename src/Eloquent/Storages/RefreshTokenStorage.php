@@ -31,7 +31,7 @@ class RefreshTokenStorage extends EloquentStorage implements RefreshTokenInterfa
         $refreshToken = RefreshToken::create([
             'access_token_id' => $accessToken->getKey(),
             'token'           => $token,
-            'expire_time'     => Date::createFromTimestampUTC($expireTime)->format('Y-m-d H:i:s'),
+            'expire_time'     => Date::createFromTimestamp($expireTime)->format('Y-m-d H:i:s'),
         ]);
 
         return $this->createEntity($refreshToken);
@@ -58,7 +58,7 @@ class RefreshTokenStorage extends EloquentStorage implements RefreshTokenInterfa
 
         $entity->setId($refreshToken->token);
         $entity->setAccessTokenId($refreshToken->accessTokenId);
-        $entity->setExpireTime($refreshToken->expireTime);
+        $entity->setExpireTime(Date::createFromFormat('Y-m-d H:i:s', $refreshToken->expire_time)->getTimestamp());
 
         return $entity;
     }
