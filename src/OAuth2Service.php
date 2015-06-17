@@ -60,7 +60,7 @@ class OAuth2Service implements OAuth2ServiceContract
      */
     public function getResourceOwnerId()
     {
-        // TODO: Calling validateAccessToken is kind of a hack, but it is necessary in order to load the access token.
+        // TODO: Calling validateAccessToken is kind of a hack, but necessary in order to load the access token.
         $this->validateAccessToken();
 
         return $this->resourceServer->getAccessToken()->getSession()->getOwnerId();

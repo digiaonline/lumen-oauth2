@@ -4,13 +4,9 @@ use Exception;
 use League\OAuth2\Server\Grant\AbstractGrant;
 use League\OAuth2\Server\Grant\RefreshTokenGrant;
 use League\OAuth2\Server\Storage\RefreshTokenInterface;
-use Nord\Lumen\OAuth2\Doctrine\Storage\AccessTokenStorage;
-use Nord\Lumen\OAuth2\Doctrine\Storage\ClientStorage;
-use Nord\Lumen\OAuth2\Doctrine\Storage\RefreshTokenStorage;
-use Nord\Lumen\OAuth2\Doctrine\Storage\ScopeStorage;
-use Nord\Lumen\OAuth2\Doctrine\Storage\SessionStorage;
+use Nord\Lumen\OAuth2\Contracts\OAuth2Adapter as OAuth2AdapterContract;
 use Nord\Lumen\OAuth2\Contracts\OAuth2Service as OAuth2ServiceContract;
-use Doctrine\ORM\EntityManager;
+use Nord\Lumen\OAuth2\Facades\OAuth2Service as OAuthServiceFacade;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application;
 use League\OAuth2\Server\AuthorizationServer;
@@ -24,6 +20,10 @@ use League\OAuth2\Server\Storage\SessionInterface;
 class OAuth2ServiceProvider extends ServiceProvider
 {
 
+    const ADAPTER_ELOQUENT = 'Nord\Lumen\OAuth2\Eloquent\EloquentAdapter';
+    const ADAPTER_DOCTRINE = 'Nord\Lumen\OAuth2\Doctrine\DoctrineAdapter';
+
+
     /**
      * @inheritdoc
      */
@@ -33,46 +33,40 @@ class OAuth2ServiceProvider extends ServiceProvider
 
         $this->app->alias(OAuth2Service::class, OAuth2ServiceContract::class);
 
-        $this->app->bind(OAuth2Service::class, function ($app) use ($config) {
-            return $this->createService($app, $config);
+        $this->app->bind(OAuth2Service::class, function () use ($config) {
+            return $this->createService($config);
         });
 
-        class_alias(OAuth2ServiceFacade::class, 'OAuth2');
+        class_alias(OAuthServiceFacade::class, 'OAuth2');
     }
 
 
     /**
-     * @param Application $app
-     * @param array       $config
+     * @param array $config
      *
      * @return OAuth2Service
      */
-    protected function createService(Application $app, array $config)
+    protected function createService(array $config)
     {
-        /** @var EntityManager $entityManager */
-        $entityManager = $app[EntityManager::class];
+        $adapterClass = array_get($config, 'adapter', self::ADAPTER_ELOQUENT);
 
-        $sessionStorage      = new SessionStorage($entityManager);
-        $accessTokenStorage  = new AccessTokenStorage($entityManager);
-        $refreshTokenStorage = new RefreshTokenStorage($entityManager);
-        $clientStorage       = new ClientStorage($entityManager);
-        $scopeStorage        = new ScopeStorage($entityManager);
+        /** @var OAuth2AdapterContract $adapter */
+        $adapter = new $adapterClass();
 
         $authorizationServer = $this->createAuthorizationServer(
             $config,
-            $sessionStorage,
-            $accessTokenStorage,
-            $refreshTokenStorage,
-            $clientStorage,
-            $scopeStorage
+            $adapter->getSessionStorage(),
+            $adapter->getAccessTokenStorage(),
+            $adapter->getRefreshTokenStorage(),
+            $adapter->getClientStorage(),
+            $adapter->getScopeStorage()
         );
 
         $resourceServer = $this->createResourceServer(
-            $config,
-            $sessionStorage,
-            $accessTokenStorage,
-            $clientStorage,
-            $scopeStorage
+            $adapter->getSessionStorage(),
+            $adapter->getAccessTokenStorage(),
+            $adapter->getClientStorage(),
+            $adapter->getScopeStorage()
         );
 
         return new OAuth2Service($authorizationServer, $resourceServer);
@@ -80,13 +74,15 @@ class OAuth2ServiceProvider extends ServiceProvider
 
 
     /**
-     * @param array                $config
-     * @param SessionInterface     $sessionStorage
-     * @param AccessTokenInterface $accessTokenStorage
-     * @param ClientInterface      $clientStorage
-     * @param ScopeInterface       $scopeStorage
+     * @param array                 $config
+     * @param SessionInterface      $sessionStorage
+     * @param AccessTokenInterface  $accessTokenStorage
+     * @param RefreshTokenInterface $refreshTokenStorage
+     * @param ClientInterface       $clientStorage
+     * @param ScopeInterface        $scopeStorage
      *
      * @return AuthorizationServer
+     * @throws Exception
      */
     protected function createAuthorizationServer(
         array $config,
@@ -158,7 +154,6 @@ class OAuth2ServiceProvider extends ServiceProvider
 
 
     /**
-     * @param array                $config
      * @param SessionInterface     $sessionStorage
      * @param AccessTokenInterface $accessTokenStorage
      * @param ClientInterface      $clientStorage
@@ -167,7 +162,6 @@ class OAuth2ServiceProvider extends ServiceProvider
      * @return ResourceServer
      */
     protected function createResourceServer(
-        array $config,
         SessionInterface $sessionStorage,
         AccessTokenInterface $accessTokenStorage,
         ClientInterface $clientStorage,

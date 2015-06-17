@@ -39,6 +39,7 @@ class OAuth2Middleware
 
             return $next($request);
         } catch (OAuthException $e) {
+            // TODO: Support other response types
             return new JsonResponse(['message' => 'Access denied'], 401);
         }
     }
