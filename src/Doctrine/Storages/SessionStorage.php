@@ -5,7 +5,7 @@ use Nord\Lumen\OAuth2\Doctrine\Repositories\ClientRepository;
 use Nord\Lumen\OAuth2\Doctrine\Entities\Client;
 use Nord\Lumen\OAuth2\Doctrine\Entities\Session;
 use Nord\Lumen\OAuth2\Doctrine\Repositories\SessionRepository;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use League\OAuth2\Server\Entity\AccessTokenEntity;
 use League\OAuth2\Server\Entity\AuthCodeEntity;
 use League\OAuth2\Server\Entity\ScopeEntity;
@@ -29,9 +29,9 @@ class SessionStorage extends DoctrineStorage implements SessionInterface
     /**
      * SessionStorage constructor.
      *
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         parent::__construct($entityManager);
 

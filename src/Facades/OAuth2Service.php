@@ -10,6 +10,6 @@ class OAuth2Service extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'Nord\Lumen\OAuth2\Facades\OAuth2Service';
+        return 'Nord\Lumen\OAuth2\Contracts\OAuth2Service';
     }
 }

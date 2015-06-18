@@ -5,7 +5,7 @@ use Nord\Lumen\OAuth2\Exceptions\AccessTokenNotFound;
 use Nord\Lumen\OAuth2\Doctrine\Repositories\SessionRepository;
 use Nord\Lumen\OAuth2\Doctrine\Entities\AccessToken;
 use Nord\Lumen\OAuth2\Doctrine\Repositories\AccessTokenRepository;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use League\OAuth2\Server\Entity\AccessTokenEntity;
 use League\OAuth2\Server\Entity\ScopeEntity;
 use League\OAuth2\Server\Storage\AccessTokenInterface;
@@ -28,9 +28,9 @@ class AccessTokenStorage extends DoctrineStorage implements AccessTokenInterface
     /**
      * AccessTokenStorage constructor.
      *
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         parent::__construct($entityManager);
 

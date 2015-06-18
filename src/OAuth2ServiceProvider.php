@@ -1,12 +1,14 @@
 <?php namespace Nord\Lumen\OAuth2;
 
 use Exception;
+use Illuminate\Contracts\Container\Container;
 use League\OAuth2\Server\Grant\AbstractGrant;
 use League\OAuth2\Server\Grant\RefreshTokenGrant;
 use League\OAuth2\Server\Storage\RefreshTokenInterface;
-use Nord\Lumen\OAuth2\Contracts\OAuth2Adapter as OAuth2AdapterContract;
 use Nord\Lumen\OAuth2\Contracts\OAuth2Service as OAuth2ServiceContract;
+use Nord\Lumen\OAuth2\Exceptions\InvalidArgument;
 use Nord\Lumen\OAuth2\Facades\OAuth2Service as OAuthServiceFacade;
+use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application;
 use League\OAuth2\Server\AuthorizationServer;
@@ -20,86 +22,93 @@ use League\OAuth2\Server\Storage\SessionInterface;
 class OAuth2ServiceProvider extends ServiceProvider
 {
 
-    const ADAPTER_ELOQUENT = 'Nord\Lumen\OAuth2\Eloquent\EloquentAdapter';
-    const ADAPTER_DOCTRINE = 'Nord\Lumen\OAuth2\Doctrine\DoctrineAdapter';
-
-
     /**
      * @inheritdoc
      */
     public function register()
     {
-        $config = $this->app['config']['oauth2'];
+        $this->registerBindings($this->app, $this->app['config']);
+        $this->registerFacades();
+    }
 
-        $this->app->alias(OAuth2Service::class, OAuth2ServiceContract::class);
 
-        $this->app->bind(OAuth2Service::class, function () use ($config) {
-            return $this->createService($config);
+    /**
+     * Registers container bindings.
+     *
+     * @param Container $container
+     * @param array     $config
+     */
+    protected function registerBindings(Container $container, ConfigRepository $config)
+    {
+        $container->alias(OAuth2Service::class, OAuth2ServiceContract::class);
+
+        $container->bind(OAuth2Service::class, function ($container) use ($config) {
+            return $this->createService($container, $config['oauth2']);
         });
+    }
 
+
+    /**
+     * Registers facades.
+     */
+    protected function registerFacades()
+    {
         class_alias(OAuthServiceFacade::class, 'OAuth2');
     }
 
 
     /**
-     * @param array $config
+     * Creates the service instance.
+     *
+     * @param Application $container
+     * @param array       $config
      *
      * @return OAuth2Service
      */
-    protected function createService(array $config)
+    protected function createService(Container $container, array $config)
     {
-        $adapterClass = array_get($config, 'adapter', self::ADAPTER_ELOQUENT);
-
-        /** @var OAuth2AdapterContract $adapter */
-        $adapter = new $adapterClass();
-
-        $authorizationServer = $this->createAuthorizationServer(
-            $config,
-            $adapter->getSessionStorage(),
-            $adapter->getAccessTokenStorage(),
-            $adapter->getRefreshTokenStorage(),
-            $adapter->getClientStorage(),
-            $adapter->getScopeStorage()
-        );
-
-        $resourceServer = $this->createResourceServer(
-            $adapter->getSessionStorage(),
-            $adapter->getAccessTokenStorage(),
-            $adapter->getClientStorage(),
-            $adapter->getScopeStorage()
-        );
+        $authorizationServer = $this->createAuthorizationServer($container, $config);
+        $resourceServer      = $this->createResourceServer($container);
 
         return new OAuth2Service($authorizationServer, $resourceServer);
     }
 
 
     /**
-     * @param array                 $config
-     * @param SessionInterface      $sessionStorage
-     * @param AccessTokenInterface  $accessTokenStorage
-     * @param RefreshTokenInterface $refreshTokenStorage
-     * @param ClientInterface       $clientStorage
-     * @param ScopeInterface        $scopeStorage
+     * Creates the authorization instance.
+     *
+     * @param Container $container
+     * @param array     $config
      *
      * @return AuthorizationServer
      * @throws Exception
      */
-    protected function createAuthorizationServer(
-        array $config,
-        SessionInterface $sessionStorage,
-        AccessTokenInterface $accessTokenStorage,
-        RefreshTokenInterface $refreshTokenStorage,
-        ClientInterface $clientStorage,
-        ScopeInterface $scopeStorage
-    ) {
+    protected function createAuthorizationServer(Container $container, array $config)
+    {
         // TODO: Support scopes
-        $authorizationServer = new AuthorizationServer();
-        $authorizationServer->setSessionStorage($sessionStorage);
-        $authorizationServer->setAccessTokenStorage($accessTokenStorage);
-        $authorizationServer->setRefreshTokenStorage($refreshTokenStorage);
-        $authorizationServer->setClientStorage($clientStorage);
-        $authorizationServer->setScopeStorage($scopeStorage);
 
+        $authorizationServer = $container->make(AuthorizationServer::class);
+
+        $authorizationServer->setSessionStorage($container->make(SessionInterface::class));
+        $authorizationServer->setAccessTokenStorage($container->make(AccessTokenInterface::class));
+        $authorizationServer->setRefreshTokenStorage($container->make(RefreshTokenInterface::class));
+        $authorizationServer->setClientStorage($container->make(ClientInterface::class));
+        $authorizationServer->setScopeStorage($container->make(ScopeInterface::class));
+
+        $this->configureAuthorizationServer($authorizationServer, $config);
+
+        return $authorizationServer;
+    }
+
+
+    /**
+     * Configures the authorization server instance.
+     *
+     * @param AuthorizationServer $authorizationServer
+     * @param array               $config
+     */
+    protected function configureAuthorizationServer(AuthorizationServer $authorizationServer, array $config)
+    {
         if (isset($config['scope_param'])) {
             $authorizationServer->requireScopeParam($config['scope_param']);
         }
@@ -116,10 +125,24 @@ class OAuth2ServiceProvider extends ServiceProvider
             $authorizationServer->setAccessTokenTTL($config['access_token_ttl']);
         }
 
+        $this->configureGrantTypes($authorizationServer, $config['grant_types']);
+    }
+
+
+    /**
+     * Configures the grant types for the authorization server instance.
+     *
+     * @param AuthorizationServer $authorizationServer
+     * @param array               $config
+     *
+     * @throws InvalidArgument
+     */
+    protected function configureGrantTypes(AuthorizationServer $authorizationServer, array $config)
+    {
         // TODO: Support configuring of the remaining grant types
-        foreach ($config['grant_types'] as $name => $params) {
+        foreach ($config as $name => $params) {
             if (!isset($params['class'])) {
-                throw new Exception("Parameter 'class' must be set for grant type.");
+                throw new InvalidArgument("Parameter 'class' must be set for grant type.");
             }
 
             /** @var AbstractGrant $grantType */
@@ -148,25 +171,18 @@ class OAuth2ServiceProvider extends ServiceProvider
 
             $authorizationServer->addGrantType($grantType);
         }
-
-        return $authorizationServer;
     }
 
 
     /**
-     * @param SessionInterface     $sessionStorage
-     * @param AccessTokenInterface $accessTokenStorage
-     * @param ClientInterface      $clientStorage
-     * @param ScopeInterface       $scopeStorage
+     * Creates the resource server.
+     *
+     * @param Container $container
      *
      * @return ResourceServer
      */
-    protected function createResourceServer(
-        SessionInterface $sessionStorage,
-        AccessTokenInterface $accessTokenStorage,
-        ClientInterface $clientStorage,
-        ScopeInterface $scopeStorage
-    ) {
-        return new ResourceServer($sessionStorage, $accessTokenStorage, $clientStorage, $scopeStorage);
+    protected function createResourceServer(Container $container)
+    {
+        return $container->make(ResourceServer::class);
     }
 }

@@ -1,6 +1,6 @@
 <?php namespace Nord\Lumen\OAuth2\Doctrine\Storages;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Jenssegers\Date\Date;
 use League\OAuth2\Server\Entity\RefreshTokenEntity;
 use League\OAuth2\Server\Storage\RefreshTokenInterface;
@@ -27,9 +27,9 @@ class RefreshTokenStorage extends DoctrineStorage implements RefreshTokenInterfa
     /**
      * RefreshTokenStorage constructor.
      *
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         parent::__construct($entityManager);
 

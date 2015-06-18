@@ -13,7 +13,7 @@
 
         <field name="token" type="string"/>
 
-        <many-to-one field="accessToken" target-entity="Nord\Lumen\OAuth2\Entities\AccessToken">
+        <many-to-one field="accessToken" target-entity="Nord\Lumen\OAuth2\Doctrine\Entities\AccessToken">
             <join-column name="access_token_id" referenced-column-name="id" on-delete="CASCADE"/>
         </many-to-one>
 

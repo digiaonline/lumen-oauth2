@@ -14,9 +14,11 @@
         <field name="ownerType" type="string" column="owner_type"/>
         <field name="ownerId" type="string" column="owner_id"/>
 
-        <many-to-one field="client" target-entity="Nord\Lumen\OAuth2\Entities\Client">
+        <many-to-one field="client" target-entity="Nord\Lumen\OAuth2\Doctrine\Entities\Client">
             <join-column name="client_id" referenced-column-name="id" on-delete="CASCADE"/>
         </many-to-one>
+
+        <field name="clientRedirectUri" type="string" column="client_redirect_uri" nullable="true"/>
 
     </entity>
 
