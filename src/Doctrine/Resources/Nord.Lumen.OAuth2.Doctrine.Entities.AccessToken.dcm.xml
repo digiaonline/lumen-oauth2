@@ -13,7 +13,7 @@
 
         <field name="token" type="string"/>
 
-        <many-to-one field="session" target-entity="Nord\Lumen\OAuth2\Entities\Session">
+        <many-to-one field="session" target-entity="Nord\Lumen\OAuth2\Doctrine\Entities\Session">
             <join-column name="session_id" referenced-column-name="id" on-delete="CASCADE"/>
         </many-to-one>
 

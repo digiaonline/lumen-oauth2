@@ -4,7 +4,7 @@ use Nord\Lumen\OAuth2\Exceptions\ClientNotFound;
 use Nord\Lumen\OAuth2\Doctrine\Repositories\SessionRepository;
 use Nord\Lumen\OAuth2\Doctrine\Entities\Client;
 use Nord\Lumen\OAuth2\Doctrine\Repositories\ClientRepository;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use League\OAuth2\Server\Entity\ClientEntity;
 use League\OAuth2\Server\Entity\SessionEntity;
 use League\OAuth2\Server\Storage\ClientInterface;
@@ -27,9 +27,9 @@ class ClientStorage extends DoctrineStorage implements ClientInterface
     /**
      * ClientStorage constructor.
      *
-     * @param EntityManager $entityManager
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         parent::__construct($entityManager);
 
