@@ -14,7 +14,7 @@ use Nord\Lumen\OAuth2\Doctrine\Storages\RefreshTokenStorage;
 use Nord\Lumen\OAuth2\Doctrine\Storages\ScopeStorage;
 use Nord\Lumen\OAuth2\Doctrine\Storages\SessionStorage;
 
-class DoctrineStorageServiceProvider extends ServiceProvider
+class DoctrineServiceProvider extends ServiceProvider
 {
 
     /**
