@@ -13,7 +13,7 @@ use Nord\Lumen\OAuth2\Eloquent\Storages\RefreshTokenStorage;
 use Nord\Lumen\OAuth2\Eloquent\Storages\ScopeStorage;
 use Nord\Lumen\OAuth2\Eloquent\Storages\SessionStorage;
 
-class EloquentStorageServiceProvider extends ServiceProvider
+class EloquentServiceProvider extends ServiceProvider
 {
 
     /**
