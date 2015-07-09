@@ -30,6 +30,7 @@ $app->configure('oauth2');
 ```
 
 ```php
+$app->register('Nord\Lumen\OAuth2\Eloquent\EloquentServiceProvider');
 $app->register('Nord\Lumen\OAuth2\OAuth2ServiceProvider');
 ```
 
