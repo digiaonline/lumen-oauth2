@@ -1,6 +1,7 @@
 <?php namespace Nord\Lumen\OAuth2\Doctrine\Storages;
 
 use Jenssegers\Date\Date;
+use League\OAuth2\Server\Exception\AccessDeniedException;
 use Nord\Lumen\OAuth2\Exceptions\AccessTokenNotFound;
 use Nord\Lumen\OAuth2\Doctrine\Repositories\SessionRepository;
 use Nord\Lumen\OAuth2\Doctrine\Entities\AccessToken;
@@ -47,7 +48,7 @@ class AccessTokenStorage extends DoctrineStorage implements AccessTokenInterface
         $accessToken = $this->repository->findByToken($token);
 
         if ($accessToken === null) {
-            throw new AccessTokenNotFound;
+            throw new AccessDeniedException;
         }
 
         return $this->createEntity($accessToken);
