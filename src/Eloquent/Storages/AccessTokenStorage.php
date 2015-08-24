@@ -1,10 +1,11 @@
 <?php namespace Nord\Lumen\OAuth2\Eloquent\Storages;
 
 use Jenssegers\Date\Date;
-use Nord\Lumen\OAuth2\Eloquent\Models\AccessToken;
 use League\OAuth2\Server\Entity\AccessTokenEntity;
 use League\OAuth2\Server\Entity\ScopeEntity;
+use League\OAuth2\Server\Exception\AccessDeniedException;
 use League\OAuth2\Server\Storage\AccessTokenInterface;
+use Nord\Lumen\OAuth2\Eloquent\Models\AccessToken;
 use Nord\Lumen\OAuth2\Exceptions\AccessTokenNotFound;
 
 class AccessTokenStorage extends EloquentStorage implements AccessTokenInterface
@@ -16,6 +17,10 @@ class AccessTokenStorage extends EloquentStorage implements AccessTokenInterface
     public function get($token)
     {
         $accessToken = $this->findByToken($token);
+
+        if ($accessToken === null) {
+            throw new AccessDeniedException;
+        }
 
         return $this->createEntity($accessToken);
     }
