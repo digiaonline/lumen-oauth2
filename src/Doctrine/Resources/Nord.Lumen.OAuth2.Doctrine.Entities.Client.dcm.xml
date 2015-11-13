@@ -11,7 +11,7 @@
             <generator strategy="AUTO"/>
         </id>
 
-        <field name="key" type="string"/>
+        <field name="key" column="`key`" type="string"/>
         <field name="secret" type="string"/>
         <field name="name" type="string"/>
 
