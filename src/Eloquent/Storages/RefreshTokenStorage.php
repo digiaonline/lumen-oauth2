@@ -1,6 +1,7 @@
 <?php namespace Nord\Lumen\OAuth2\Eloquent\Storages;
 
-use Jenssegers\Date\Date;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use League\OAuth2\Server\Entity\RefreshTokenEntity;
 use League\OAuth2\Server\Storage\RefreshTokenInterface;
 use Nord\Lumen\OAuth2\Eloquent\Models\AccessToken;
@@ -17,6 +18,10 @@ class RefreshTokenStorage extends EloquentStorage implements RefreshTokenInterfa
     {
         $refreshToken = $this->findByToken($token);
 
+        if ($refreshToken === null) {
+            throw new RefreshTokenNotFound;
+        }
+
         return $this->createEntity($refreshToken);
     }
 
@@ -31,7 +36,7 @@ class RefreshTokenStorage extends EloquentStorage implements RefreshTokenInterfa
         $refreshToken = RefreshToken::create([
             'access_token_id' => $accessToken->getKey(),
             'token'           => $token,
-            'expire_time'     => Date::createFromTimestamp($expireTime)->format('Y-m-d H:i:s'),
+            'expire_time'     => Carbon::createFromTimestamp($expireTime)->format('Y-m-d H:i:s'),
         ]);
 
         return $this->createEntity($refreshToken);
@@ -57,8 +62,8 @@ class RefreshTokenStorage extends EloquentStorage implements RefreshTokenInterfa
         $entity = new RefreshTokenEntity($this->server);
 
         $entity->setId($refreshToken->token);
-        $entity->setAccessTokenId($refreshToken->accessTokenId);
-        $entity->setExpireTime(Date::createFromFormat('Y-m-d H:i:s', $refreshToken->expire_time)->getTimestamp());
+        $entity->setAccessTokenId($refreshToken->accessToken->token);
+        $entity->setExpireTime(Carbon::createFromFormat('Y-m-d H:i:s', $refreshToken->expire_time)->getTimestamp());
 
         return $entity;
     }

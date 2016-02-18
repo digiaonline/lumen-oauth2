@@ -1,6 +1,6 @@
 <?php namespace Nord\Lumen\OAuth2\Eloquent\Storages;
 
-use Jenssegers\Date\Date;
+use Carbon\Carbon;
 use League\OAuth2\Server\Entity\AccessTokenEntity;
 use League\OAuth2\Server\Entity\ScopeEntity;
 use League\OAuth2\Server\Exception\AccessDeniedException;
@@ -42,7 +42,7 @@ class AccessTokenStorage extends EloquentStorage implements AccessTokenInterface
         AccessToken::create([
             'token'       => $token,
             'session_id'  => $sessionId,
-            'expire_time' => Date::createFromTimestamp($expireTime)->format('Y-m-d H:i:s'),
+            'expire_time' => Carbon::createFromTimestamp($expireTime)->format('Y-m-d H:i:s'),
         ]);
     }
 
@@ -61,7 +61,13 @@ class AccessTokenStorage extends EloquentStorage implements AccessTokenInterface
      */
     public function delete(AccessTokenEntity $token)
     {
-        $this->findByToken($token->getId())->delete();
+        $accessToken = $this->findByToken($token->getId());
+
+        if ($accessToken === null) {
+            throw new AccessTokenNotFound;
+        }
+
+        $accessToken->delete();
     }
 
 
@@ -75,7 +81,7 @@ class AccessTokenStorage extends EloquentStorage implements AccessTokenInterface
         $entity = new AccessTokenEntity($this->server);
 
         $entity->setId($accessToken->token);
-        $entity->setExpireTime(Date::createFromFormat('Y-m-d H:i:s', $accessToken->expire_time)->getTimestamp());
+        $entity->setExpireTime(Carbon::createFromFormat('Y-m-d H:i:s', $accessToken->expire_time)->getTimestamp());
 
         return $entity;
     }
@@ -89,12 +95,6 @@ class AccessTokenStorage extends EloquentStorage implements AccessTokenInterface
      */
     protected function findByToken($token)
     {
-        $accessToken = AccessToken::findByToken($token);
-
-        if ($accessToken === null) {
-            throw new AccessTokenNotFound;
-        }
-
-        return $accessToken;
+        return AccessToken::findByToken($token);
     }
 }
