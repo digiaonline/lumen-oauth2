@@ -1,27 +1,14 @@
 <?php namespace Nord\Lumen\OAuth2\Middleware;
 
-use Nord\Lumen\OAuth2\OAuth2Service;
-use Illuminate\Http\JsonResponse;
+use Nord\Lumen\Core\App\CreatesHttpResponses;
 use League\OAuth2\Server\Exception\OAuthException;
+use Nord\Lumen\OAuth2\Traits\AuthenticatesUsers;
 
 class OAuth2Middleware
 {
 
-    /**
-     * @var OAuth2Service
-     */
-    protected $service;
-
-
-    /**
-     * OAuth2Middleware constructor.
-     *
-     * @param OAuth2Service $service
-     */
-    public function __construct(OAuth2Service $service)
-    {
-        $this->service = $service;
-    }
+    use AuthenticatesUsers;
+    use CreatesHttpResponses;
 
 
     /**
@@ -35,12 +22,11 @@ class OAuth2Middleware
     public function handle($request, \Closure $next)
     {
         try {
-            $this->service->validateAccessToken();
+            $this->getOAuth2Service()->validateAccessToken();
 
             return $next($request);
         } catch (OAuthException $e) {
-            // TODO: Support other response types
-            return new JsonResponse(['message' => 'Access denied'], 401);
+            return $this->accessDeniedResponse('ERROR.ACCESS_DENIED');
         }
     }
 }

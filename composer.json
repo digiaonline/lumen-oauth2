@@ -1,25 +1,34 @@
 {
-    "name": "nordsoftware/lumen-oauth2",
-    "description": "OAuth2 module for the Lumen PHP framework.",
-    "keywords": ["laravel", "lumen", "oauth2"],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Christoffer Niska",
-            "email": "christofferniska@gmail.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "require": {
-        "php": ">=5.5",
-        "league/oauth2-server": "dev-master"
+  "name": "nordsoftware/lumen-oauth2",
+  "description": "OAuth2 module for the Lumen PHP framework.",
+  "keywords": [
+    "laravel",
+    "lumen",
+    "oauth2"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Christoffer Niska",
+      "email": "christofferniska@gmail.com"
     },
-    "autoload": {
-        "psr-4": {
-            "Nord\\Lumen\\OAuth2\\": "src"
-        }
-    },
-    "require-dev": {
-        "laravel/lumen-framework": "^5.1@dev"
+    {
+      "name": "Kenneth Söderlund",
+      "email": "kenneth.soderlund@nordsoftware.com"
     }
+  ],
+  "require": {
+    "php": ">=5.5",
+    "nesbot/carbon": "^1.21",
+    "league/oauth2-server": "^4.1",
+    "nordsoftware/lumen-core": "^0.14"
+  },
+  "autoload": {
+    "psr-4": {
+      "Nord\\Lumen\\OAuth2\\": "src"
+    }
+  },
+  "require-dev": {
+    "laravel/lumen-framework": "^5.2"
+  }
 }
