@@ -20,7 +20,6 @@ class CreateOauthAccessTokensTable extends Migration {
 			$table->dateTime('expire_time');
 
 			$table->foreign('session_id')->references('id')->on('oauth_sessions');
-
 		});
 	}
 
