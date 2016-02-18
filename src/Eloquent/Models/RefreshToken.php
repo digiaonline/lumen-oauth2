@@ -1,6 +1,7 @@
 <?php namespace Nord\Lumen\OAuth2\Eloquent\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RefreshToken extends Model
 {
@@ -26,12 +27,21 @@ class RefreshToken extends Model
 
 
     /**
+     * @return BelongsTo
+     */
+    public function accessToken()
+    {
+        return $this->belongsTo(AccessToken::class);
+    }
+
+
+    /**
      * @param string $token
      *
      * @return RefreshToken
      */
     public static function findByToken($token)
     {
-        return self::where('token', $token)->firstOrFail();
+        return self::where('token', $token)->first();
     }
 }

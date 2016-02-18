@@ -18,8 +18,6 @@ class CreateOauthRefreshTokensTable extends Migration {
 			$table->integer('access_token_id')->unsigned();
 			$table->string('token');
 			$table->dateTime('expire_time');
-
-			$table->foreign('access_token_id')->references('id')->on('oauth_access_tokens');
 		});
 	}
 
