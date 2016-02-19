@@ -1,5 +1,7 @@
 # Lumen OAuth2
 
+[![Code Climate](https://codeclimate.com/github/nordsoftware/lumen-oauth2/badges/gpa.svg)](https://codeclimate.com/github/nordsoftware/lumen-oauth2)
+
 OAuth2 module for the Lumen PHP framework.
 
 ## Requirements
@@ -19,7 +21,7 @@ composer require nordsoftware/lumen-oauth2
 
 ### Configure
 
-Copy the configuration template in `config/oauth2.php` to your application's `config` directory and modifying according to your needs. For more information see the [Configuration Files](http://lumen.laravel.com/docs/configuration#configuration-files) section in the Lumen documentation.
+Copy the configuration template in `config/oauth2.php` to your application's `config` directory and modify according to your needs. For more information see the [Configuration Files](http://lumen.laravel.com/docs/configuration#configuration-files) section in the Lumen documentation.
 
 ### Bootstrapping
 
