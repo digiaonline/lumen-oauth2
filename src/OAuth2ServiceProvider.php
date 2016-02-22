@@ -53,7 +53,9 @@ class OAuth2ServiceProvider extends ServiceProvider
      */
     protected function registerFacades()
     {
-        class_alias(OAuthServiceFacade::class, 'OAuth2');
+        if (!class_exists('OAuth2')) {
+            class_alias(OAuthServiceFacade::class, 'OAuth2');
+        }
     }
 
 
