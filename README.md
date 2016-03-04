@@ -2,7 +2,7 @@
 
 [![Code Climate](https://codeclimate.com/github/nordsoftware/lumen-oauth2/badges/gpa.svg)](https://codeclimate.com/github/nordsoftware/lumen-oauth2)
 
-OAuth2 module for the Lumen PHP framework.
+OAuth2 module for the [Lumen PHP framework](http://lumen.laravel.com/).
 
 ## Requirements
 
@@ -45,10 +45,7 @@ $app->routerMiddleware([
 
 ## Contributing
 
-Please note the following guidelines before submitting pull requests:
-
-- Use the [PSR-2 coding style](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
-- Create pull requests for the *develop* branch
+Please read the [guidelines](.github/CONTRIBUTING.md).
 
 ## License
 
