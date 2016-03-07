@@ -18,10 +18,10 @@
     }
   ],
   "require": {
-    "php": ">=5.5",
+    "php": ">=5.5.9",
     "nesbot/carbon": "^1.21",
     "league/oauth2-server": "^4.1",
-    "nordsoftware/lumen-core": "^0.14"
+    "nordsoftware/lumen-core": "^1.0"
   },
   "autoload": {
     "psr-4": {
