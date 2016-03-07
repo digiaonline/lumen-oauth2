@@ -21,11 +21,15 @@ use League\OAuth2\Server\Storage\SessionInterface;
 class OAuth2ServiceProvider extends ServiceProvider
 {
 
+    const CONFIG_KEY = 'oauth2';
+
     /**
      * @inheritdoc
      */
     public function register()
     {
+        $this->app->configure(self::CONFIG_KEY);
+
         $this->registerBindings($this->app, $this->app['config']);
         $this->registerFacades();
     }
@@ -34,16 +38,16 @@ class OAuth2ServiceProvider extends ServiceProvider
     /**
      * Registers container bindings.
      *
-     * @param Container $container
-     * @param array     $config
+     * @param Container        $container
+     * @param ConfigRepository $config
      */
     protected function registerBindings(Container $container, ConfigRepository $config)
     {
-        $container->alias(OAuth2Service::class, OAuth2ServiceContract::class);
-
         $container->bind(OAuth2Service::class, function ($container) use ($config) {
-            return $this->createService($container, $config['oauth2']);
+            return $this->createService($container, $config[self::CONFIG_KEY]);
         });
+
+        $container->alias(OAuth2Service::class, OAuth2ServiceContract::class);
     }
 
 
