@@ -16,7 +16,7 @@ class ClientStorage extends DoctrineStorage implements ClientInterface
     /**
      * @var ClientRepository
      */
-    protected $repository;
+    protected $clientRepository;
 
     /**
      * @var SessionRepository
@@ -33,7 +33,7 @@ class ClientStorage extends DoctrineStorage implements ClientInterface
     {
         parent::__construct($entityManager);
 
-        $this->repository        = $this->entityManager->getRepository(Client::class);
+        $this->clientRepository  = $this->entityManager->getRepository(Client::class);
         $this->sessionRepository = $this->entityManager->getRepository(Session::class);
     }
 
@@ -44,7 +44,7 @@ class ClientStorage extends DoctrineStorage implements ClientInterface
     public function get($clientId, $clientSecret = null, $redirectUri = null, $grantType = null)
     {
         /** @var Client $client */
-        $client = $this->repository->findByKey($clientId);
+        $client = $this->clientRepository->findByKey($clientId);
 
         if ($client === null) {
             throw new ClientNotFound;
@@ -62,7 +62,7 @@ class ClientStorage extends DoctrineStorage implements ClientInterface
         /** @var Session $session */
         $session = $this->sessionRepository->find($entity->getId());
 
-        $client = $this->repository->findBySession($session);
+        $client = $this->clientRepository->findBySession($session);
 
         if ($client === null) {
             throw new ClientNotFound;

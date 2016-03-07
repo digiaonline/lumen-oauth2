@@ -18,7 +18,7 @@ class SessionStorage extends DoctrineStorage implements SessionInterface
     /**
      * @var SessionRepository
      */
-    protected $repository;
+    protected $sessionRepository;
 
     /**
      * @var ClientRepository
@@ -35,8 +35,8 @@ class SessionStorage extends DoctrineStorage implements SessionInterface
     {
         parent::__construct($entityManager);
 
-        $this->repository       = $this->entityManager->getRepository(Session::class);
-        $this->clientRepository = $this->entityManager->getRepository(Client::class);
+        $this->sessionRepository = $this->entityManager->getRepository(Session::class);
+        $this->clientRepository  = $this->entityManager->getRepository(Client::class);
     }
 
 
@@ -45,7 +45,7 @@ class SessionStorage extends DoctrineStorage implements SessionInterface
      */
     public function getByAccessToken(AccessTokenEntity $accessToken)
     {
-        $session = $this->repository->findByAccessToken($accessToken->getId());
+        $session = $this->sessionRepository->findByAccessToken($accessToken->getId());
 
         if ($session === null) {
             throw new SessionNotFound;
@@ -80,6 +80,7 @@ class SessionStorage extends DoctrineStorage implements SessionInterface
         $client = $this->clientRepository->findByKey($clientId);
 
         // TODO: support redirect URI
+        
         $session = new Session($ownerType, $ownerId, $client);
 
         $this->entityManager->persist($session);

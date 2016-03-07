@@ -1,7 +1,7 @@
 <?php namespace Nord\Lumen\OAuth2\Doctrine\Storages;
 
+use Carbon\Carbon;
 use Doctrine\ORM\EntityManagerInterface;
-use Jenssegers\Date\Date;
 use League\OAuth2\Server\Entity\RefreshTokenEntity;
 use League\OAuth2\Server\Storage\RefreshTokenInterface;
 use Nord\Lumen\OAuth2\Exceptions\RefreshTokenNotFound;
@@ -16,7 +16,7 @@ class RefreshTokenStorage extends DoctrineStorage implements RefreshTokenInterfa
     /**
      * @var RefreshTokenRepository
      */
-    protected $repository;
+    protected $refreshTokenRepository;
 
     /**
      * @var AccessTokenRepository
@@ -33,8 +33,8 @@ class RefreshTokenStorage extends DoctrineStorage implements RefreshTokenInterfa
     {
         parent::__construct($entityManager);
 
-        $this->repository            = $this->entityManager->getRepository(RefreshToken::class);
-        $this->accessTokenRepository = $this->entityManager->getRepository(AccessToken::class);
+        $this->refreshTokenRepository = $this->entityManager->getRepository(RefreshToken::class);
+        $this->accessTokenRepository  = $this->entityManager->getRepository(AccessToken::class);
     }
 
 
@@ -43,7 +43,7 @@ class RefreshTokenStorage extends DoctrineStorage implements RefreshTokenInterfa
      */
     public function get($token)
     {
-        $refreshToken = $this->repository->findByToken($token);
+        $refreshToken = $this->refreshTokenRepository->findByToken($token);
 
         if ($refreshToken === null) {
             throw new RefreshTokenNotFound;
@@ -61,7 +61,7 @@ class RefreshTokenStorage extends DoctrineStorage implements RefreshTokenInterfa
         $refreshToken = new RefreshToken(
             $token,
             $this->accessTokenRepository->findByToken($accessToken),
-            new Date($expireTime)
+            Carbon::createFromTimestamp($expireTime)
         );
 
         $this->entityManager->persist($refreshToken);
@@ -76,7 +76,7 @@ class RefreshTokenStorage extends DoctrineStorage implements RefreshTokenInterfa
      */
     public function delete(RefreshTokenEntity $token)
     {
-        $refreshToken = $this->repository->findByToken($token->getId());
+        $refreshToken = $this->refreshTokenRepository->findByToken($token->getId());
 
         if ($refreshToken === null) {
             throw new RefreshTokenNotFound;

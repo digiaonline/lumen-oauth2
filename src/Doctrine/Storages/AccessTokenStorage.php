@@ -1,6 +1,6 @@
 <?php namespace Nord\Lumen\OAuth2\Doctrine\Storages;
 
-use Jenssegers\Date\Date;
+use Carbon\Carbon;
 use League\OAuth2\Server\Exception\AccessDeniedException;
 use Nord\Lumen\OAuth2\Exceptions\AccessTokenNotFound;
 use Nord\Lumen\OAuth2\Doctrine\Repositories\SessionRepository;
@@ -18,7 +18,7 @@ class AccessTokenStorage extends DoctrineStorage implements AccessTokenInterface
     /**
      * @var AccessTokenRepository
      */
-    protected $repository;
+    protected $accessTokenRepository;
 
     /**
      * @var SessionRepository
@@ -35,8 +35,8 @@ class AccessTokenStorage extends DoctrineStorage implements AccessTokenInterface
     {
         parent::__construct($entityManager);
 
-        $this->repository        = $this->entityManager->getRepository(AccessToken::class);
-        $this->sessionRepository = $this->entityManager->getRepository(Session::class);
+        $this->accessTokenRepository = $this->entityManager->getRepository(AccessToken::class);
+        $this->sessionRepository     = $this->entityManager->getRepository(Session::class);
     }
 
 
@@ -45,7 +45,7 @@ class AccessTokenStorage extends DoctrineStorage implements AccessTokenInterface
      */
     public function get($token)
     {
-        $accessToken = $this->repository->findByToken($token);
+        $accessToken = $this->accessTokenRepository->findByToken($token);
 
         if ($accessToken === null) {
             throw new AccessDeniedException;
@@ -71,7 +71,7 @@ class AccessTokenStorage extends DoctrineStorage implements AccessTokenInterface
         /** @var Session $session */
         $session = $this->sessionRepository->find($sessionId);
 
-        $accessToken = new AccessToken($token, $session, new Date($expireTime));
+        $accessToken = new AccessToken($token, $session, Carbon::createFromTimestamp($expireTime));
 
         $this->entityManager->persist($accessToken);
         $this->entityManager->flush($accessToken);
@@ -92,7 +92,7 @@ class AccessTokenStorage extends DoctrineStorage implements AccessTokenInterface
      */
     public function delete(AccessTokenEntity $token)
     {
-        $accessToken = $this->repository->findByToken($token->getId());
+        $accessToken = $this->accessTokenRepository->findByToken($token->getId());
 
         if ($accessToken === null) {
             throw new AccessTokenNotFound;

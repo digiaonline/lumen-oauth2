@@ -1,7 +1,7 @@
 <?php namespace Nord\Lumen\OAuth2\Doctrine\Entities;
 
+use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
-use Jenssegers\Date\Date;
 
 /**
  * @ORM\Entity(repositoryClass="Nord\Lumen\OAuth2\Doctrine\Repositories\AccessTokenRepository")
@@ -25,7 +25,7 @@ class AccessToken extends Entity
 
     /**
      * @ORM\Column(type="datetime", name="expire_time")
-     * @var Date
+     * @var Carbon
      */
     protected $expireTime;
 
@@ -35,9 +35,9 @@ class AccessToken extends Entity
      *
      * @param string  $token
      * @param Session $session
-     * @param Date    $expireTime
+     * @param Carbon  $expireTime
      */
-    public function __construct($token, Session $session, Date $expireTime)
+    public function __construct($token, Session $session, Carbon $expireTime)
     {
         $this->token      = $token;
         $this->session    = $session;
@@ -55,7 +55,7 @@ class AccessToken extends Entity
 
 
     /**
-     * @return Date
+     * @return Carbon
      */
     public function getExpireTime()
     {
