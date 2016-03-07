@@ -1,6 +1,11 @@
 # Lumen OAuth2
 
-OAuth2 module for the Lumen PHP framework.
+[![Code Climate](https://codeclimate.com/github/nordsoftware/lumen-oauth2/badges/gpa.svg)](https://codeclimate.com/github/nordsoftware/lumen-oauth2)
+[![Latest Stable Version](https://poser.pugx.org/nordsoftware/lumen-oauth2/version)](https://packagist.org/packages/nordsoftware/lumen-oauth2) 
+[![Total Downloads](https://poser.pugx.org/nordsoftware/lumen-oauth2/downloads)](https://packagist.org/packages/nordsoftware/lumen-oauth2)
+[![License](https://poser.pugx.org/nordsoftware/lumen-oauth2/license)](https://packagist.org/packages/nordsoftware/lumen-oauth2)
+
+OAuth2 module for the [Lumen PHP framework](http://lumen.laravel.com/).
 
 ## Requirements
 
@@ -19,7 +24,7 @@ composer require nordsoftware/lumen-oauth2
 
 ### Configure
 
-Copy the configuration template in `config/oauth2.php` to your application's `config` directory and modifying according to your needs. For more information see the [Configuration Files](http://lumen.laravel.com/docs/configuration#configuration-files) section in the Lumen documentation.
+Copy the configuration template in `config/oauth2.php` to your application's `config` directory and modify according to your needs. For more information see the [Configuration Files](http://lumen.laravel.com/docs/configuration#configuration-files) section in the Lumen documentation.
 
 ### Bootstrapping
 
@@ -43,10 +48,7 @@ $app->routerMiddleware([
 
 ## Contributing
 
-Please note the following guidelines before submitting pull requests:
-
-- Use the [PSR-2 coding style](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
-- Create pull requests for the *develop* branch
+Please read the [guidelines](.github/CONTRIBUTING.md).
 
 ## License
 

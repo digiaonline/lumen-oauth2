@@ -1,0 +1,22 @@
+Nord\Lumen\OAuth2\Doctrine\Entities\RefreshToken:
+  type: entity
+  table: oauth_refresh_tokens
+  repositoryClass: Nord\Lumen\OAuth2\Doctrine\Repositories\RefreshTokenRepository
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    token:
+      type: string
+    expireTime:
+      type: datetime
+      column: expire_time
+  manyToOne:
+    accessToken:
+      targetEntity: Nord\Lumen\OAuth2\Doctrine\Entities\AccessToken
+      joinColumns:
+        access_token_id:
+          referenceColumnName: id
+          onDelete: SET NULL
