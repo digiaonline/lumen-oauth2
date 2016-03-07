@@ -7,7 +7,6 @@ use League\OAuth2\Server\Grant\RefreshTokenGrant;
 use League\OAuth2\Server\Storage\RefreshTokenInterface;
 use Nord\Lumen\OAuth2\Contracts\OAuth2Service as OAuth2ServiceContract;
 use Nord\Lumen\OAuth2\Exceptions\InvalidArgument;
-use Nord\Lumen\OAuth2\Facades\OAuth2Service as OAuthServiceFacade;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application;
@@ -54,7 +53,7 @@ class OAuth2ServiceProvider extends ServiceProvider
     protected function registerFacades()
     {
         if (!class_exists('OAuth2')) {
-            class_alias(OAuthServiceFacade::class, 'OAuth2');
+            class_alias(OAuth2Facade::class, 'OAuth2');
         }
     }
 
