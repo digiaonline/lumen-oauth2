@@ -1,0 +1,27 @@
+Nord\Lumen\OAuth2\Doctrine\Entities\Session:
+  type: entity
+  table: oauth_sessions
+  repositoryClass: Nord\Lumen\OAuth2\Doctrine\Repositories\SessionRepository
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    ownerType:
+      column: owner_type
+      type: string
+    ownerId:
+      column: owner_id
+      type: string
+    clientRedirectUri:
+      column: client_redirect_uri
+      type: string
+      nullable: true
+  manyToOne:
+    client:
+      targetEntity: Nord\Lumen\OAuth2\Doctrine\Entities\Client
+      joinColumns:
+        client_id:
+          referenceColumnName: id
+          onDelete: CASCADE
