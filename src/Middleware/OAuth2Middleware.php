@@ -1,6 +1,6 @@
 <?php namespace Nord\Lumen\OAuth2\Middleware;
 
-use Nord\Lumen\Core\App\CreatesHttpResponses;
+use Nord\Lumen\Core\Traits\CreatesHttpResponses;
 use League\OAuth2\Server\Exception\OAuthException;
 use Nord\Lumen\OAuth2\Traits\AuthenticatesUsers;
 
