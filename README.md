@@ -3,7 +3,7 @@
 [![Code Climate](https://codeclimate.com/github/nordsoftware/lumen-oauth2/badges/gpa.svg)](https://codeclimate.com/github/nordsoftware/lumen-oauth2)
 [![Latest Stable Version](https://poser.pugx.org/nordsoftware/lumen-oauth2/version)](https://packagist.org/packages/nordsoftware/lumen-oauth2) 
 [![Total Downloads](https://poser.pugx.org/nordsoftware/lumen-oauth2/downloads)](https://packagist.org/packages/nordsoftware/lumen-oauth2)
-[![License](https://poser.pugx.org/nordsoftware/lumen-oauth2/license)](https://packagist.org/packages/nordsoftware/lumen-oauth2)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 OAuth2 module for the [Lumen PHP framework](http://lumen.laravel.com/).
 
