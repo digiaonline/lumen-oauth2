@@ -4,6 +4,7 @@
 [![Latest Stable Version](https://poser.pugx.org/nordsoftware/lumen-oauth2/version)](https://packagist.org/packages/nordsoftware/lumen-oauth2) 
 [![Total Downloads](https://poser.pugx.org/nordsoftware/lumen-oauth2/downloads)](https://packagist.org/packages/nordsoftware/lumen-oauth2)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Gitter](https://img.shields.io/gitter/room/norsoftware/chat.svg?maxAge=2592000)](https://gitter.im/nordsoftware/chat)
 
 OAuth2 module for the [Lumen PHP framework](http://lumen.laravel.com/).
 
