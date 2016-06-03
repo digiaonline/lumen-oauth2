@@ -2,5 +2,4 @@
 
 class AccessTokenNotFound extends Exception
 {
-
 }

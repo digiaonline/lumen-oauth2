@@ -6,7 +6,6 @@ use Nord\Lumen\OAuth2\Traits\AuthenticatesUsers;
 
 class OAuth2Middleware
 {
-
     use AuthenticatesUsers;
     use CreatesHttpResponses;
 

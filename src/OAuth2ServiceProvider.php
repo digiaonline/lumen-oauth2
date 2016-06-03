@@ -20,7 +20,6 @@ use League\OAuth2\Server\Storage\SessionInterface;
 
 class OAuth2ServiceProvider extends ServiceProvider
 {
-
     const CONFIG_KEY = 'oauth2';
 
     /**

@@ -10,7 +10,6 @@ use League\OAuth2\Server\Exception\OAuthException;
 
 class OAuth2Middleware
 {
-
     use AuthenticatesUsers;
     use CreatesHttpResponses;
 

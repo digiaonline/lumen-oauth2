@@ -4,5 +4,4 @@ use Doctrine\ORM\EntityRepository;
 
 class ScopeRepository extends EntityRepository
 {
-
 }
