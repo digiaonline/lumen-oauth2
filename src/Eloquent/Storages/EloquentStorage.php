@@ -4,5 +4,4 @@ use League\OAuth2\Server\Storage\AbstractStorage;
 
 abstract class EloquentStorage extends AbstractStorage
 {
-
 }

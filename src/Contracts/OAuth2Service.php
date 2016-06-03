@@ -41,5 +41,4 @@ interface OAuth2Service
      * @return string
      */
     public function getClientId();
-
 }

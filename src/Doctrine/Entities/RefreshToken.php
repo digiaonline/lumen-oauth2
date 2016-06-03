@@ -70,5 +70,4 @@ class RefreshToken extends Entity
     {
         return $this->expireTime;
     }
-
 }

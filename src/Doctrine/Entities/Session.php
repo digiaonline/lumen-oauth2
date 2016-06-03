@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Session extends Entity
 {
-
     const OWNER_TYPE_USER = 'user';
     const OWNER_TYPE_CLIENT = 'client';
 
