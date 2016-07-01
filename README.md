@@ -1,6 +1,7 @@
 # Lumen OAuth2
 
 [![Code Climate](https://codeclimate.com/github/nordsoftware/lumen-oauth2/badges/gpa.svg)](https://codeclimate.com/github/nordsoftware/lumen-oauth2)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nordsoftware/lumen-oauth2/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nordsoftware/lumen-oauth2/?branch=master)
 [![StyleCI](https://styleci.io/repos/35571322/shield?style=flat)](https://styleci.io/repos/35571322)
 [![Latest Stable Version](https://poser.pugx.org/nordsoftware/lumen-oauth2/version)](https://packagist.org/packages/nordsoftware/lumen-oauth2) 
 [![Total Downloads](https://poser.pugx.org/nordsoftware/lumen-oauth2/downloads)](https://packagist.org/packages/nordsoftware/lumen-oauth2)
