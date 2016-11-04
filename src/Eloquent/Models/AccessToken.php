@@ -1,11 +1,12 @@
-<?php namespace Nord\Lumen\OAuth2\Eloquent\Models;
+<?php
+
+namespace Nord\Lumen\OAuth2\Eloquent\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AccessToken extends Model
 {
-
     /**
      * @var bool
      */
@@ -25,7 +26,6 @@ class AccessToken extends Model
         'expire_time',
     ];
 
-
     /**
      * @return BelongsTo
      */
@@ -33,7 +33,6 @@ class AccessToken extends Model
     {
         return $this->belongsTo(Session::class);
     }
-
 
     /**
      * @param string $token

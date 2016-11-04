@@ -1,12 +1,13 @@
-<?php namespace Nord\Lumen\OAuth2;
+<?php
+
+namespace Nord\Lumen\OAuth2;
 
 use Illuminate\Support\Facades\Facade;
 
 class OAuth2Facade extends Facade
 {
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected static function getFacadeAccessor()
     {

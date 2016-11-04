@@ -1,4 +1,6 @@
-<?php namespace Nord\Lumen\OAuth2\Eloquent;
+<?php
+
+namespace Nord\Lumen\OAuth2\Eloquent;
 
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
@@ -15,9 +17,8 @@ use Nord\Lumen\OAuth2\Eloquent\Storages\SessionStorage;
 
 class EloquentServiceProvider extends ServiceProvider
 {
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function register()
     {
@@ -25,29 +26,26 @@ class EloquentServiceProvider extends ServiceProvider
     }
 
 
-    /**
-     *
-     */
     protected function registerContainerBindings(Container $container)
     {
         $container->bind(AccessTokenStorage::class, function () {
-            return new AccessTokenStorage;
+            return new AccessTokenStorage();
         });
 
         $container->bind(ClientStorage::class, function () {
-            return new ClientStorage;
+            return new ClientStorage();
         });
 
         $container->bind(RefreshTokenStorage::class, function () {
-            return new RefreshTokenStorage;
+            return new RefreshTokenStorage();
         });
 
         $container->bind(ScopeStorage::class, function () {
-            return new ScopeStorage;
+            return new ScopeStorage();
         });
 
         $container->bind(SessionStorage::class, function () {
-            return new SessionStorage;
+            return new SessionStorage();
         });
 
         $container->bind(AccessTokenInterface::class, AccessTokenStorage::class);

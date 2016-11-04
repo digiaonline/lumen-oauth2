@@ -1,4 +1,6 @@
-<?php namespace Nord\Lumen\OAuth2\Doctrine\Entities;
+<?php
+
+namespace Nord\Lumen\OAuth2\Doctrine\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,18 +10,19 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Session extends Entity
 {
-
     const OWNER_TYPE_USER = 'user';
     const OWNER_TYPE_CLIENT = 'client';
 
     /**
      * @ORM\Column(type="string", name="owner_type")
+     *
      * @var string
      */
     protected $ownerType = self::OWNER_TYPE_USER;
 
     /**
      * @ORM\Column(type="string", name="owner_id")
+     *
      * @var string
      */
     protected $ownerId;
@@ -27,16 +30,17 @@ class Session extends Entity
     /**
      * @ORM\ManyToOne(targetEntity="Nord\Lumen\OAuth2\Doctrine\Entities\Client")
      * @ORM\JoinColumn(name="client_id", referencedColumnName="id", onDelete="CASCADE")
+     *
      * @var Client
      */
     protected $client;
 
     /**
      * @ORM\Column(type="string", name="client_redirect_uri", nullable=true)
+     *
      * @var string
      */
     protected $clientRedirectUri;
-
 
     /**
      * Session constructor.
@@ -48,10 +52,9 @@ class Session extends Entity
     public function __construct($ownerType, $ownerId, Client $client)
     {
         $this->ownerType = $ownerType;
-        $this->ownerId   = $ownerId;
-        $this->client    = $client;
+        $this->ownerId = $ownerId;
+        $this->client = $client;
     }
-
 
     /**
      * @return string
@@ -60,7 +63,6 @@ class Session extends Entity
     {
         return $this->ownerType;
     }
-
 
     /**
      * @return string

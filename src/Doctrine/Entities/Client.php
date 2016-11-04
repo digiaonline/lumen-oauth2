@@ -1,4 +1,6 @@
-<?php namespace Nord\Lumen\OAuth2\Doctrine\Entities;
+<?php
+
+namespace Nord\Lumen\OAuth2\Doctrine\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,25 +10,26 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Client extends Entity
 {
-
     /**
      * @ORM\Column(type="string")
+     *
      * @var string
      */
     protected $key;
 
     /**
      * @ORM\Column(type="string")
+     *
      * @var string
      */
     protected $secret;
 
     /**
      * @ORM\Column(type="string")
+     *
      * @var string
      */
     protected $name;
-
 
     /**
      * Client constructor.
@@ -37,11 +40,10 @@ class Client extends Entity
      */
     public function __construct($key, $secret, $name)
     {
-        $this->key    = $key;
+        $this->key = $key;
         $this->secret = $secret;
-        $this->name   = $name;
+        $this->name = $name;
     }
-
 
     /**
      * @return string
@@ -51,7 +53,6 @@ class Client extends Entity
         return $this->key;
     }
 
-
     /**
      * @return string
      */
@@ -59,7 +60,6 @@ class Client extends Entity
     {
         return $this->secret;
     }
-
 
     /**
      * @return string

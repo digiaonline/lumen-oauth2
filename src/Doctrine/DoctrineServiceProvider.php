@@ -1,4 +1,6 @@
-<?php namespace Nord\Lumen\OAuth2\Doctrine;
+<?php
+
+namespace Nord\Lumen\OAuth2\Doctrine;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Contracts\Container\Container;
@@ -16,9 +18,8 @@ use Nord\Lumen\OAuth2\Doctrine\Storages\SessionStorage;
 
 class DoctrineServiceProvider extends ServiceProvider
 {
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function register()
     {
@@ -26,9 +27,6 @@ class DoctrineServiceProvider extends ServiceProvider
     }
 
 
-    /**
-     *
-     */
     protected function registerContainerBindings(Container $container)
     {
         $entityManager = $container->make(EntityManagerInterface::class);

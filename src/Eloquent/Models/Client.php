@@ -1,10 +1,11 @@
-<?php namespace Nord\Lumen\OAuth2\Eloquent\Models;
+<?php
+
+namespace Nord\Lumen\OAuth2\Eloquent\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
-
     /**
      * @var bool
      */
@@ -30,7 +31,6 @@ class Client extends Model
         'secret',
     ];
 
-
     /**
      * @param string $key
      *
@@ -40,7 +40,6 @@ class Client extends Model
     {
         return self::where('key', $key)->first();
     }
-
 
     /**
      * @param int $sessionId

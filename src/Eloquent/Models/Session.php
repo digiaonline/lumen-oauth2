@@ -1,11 +1,12 @@
-<?php namespace Nord\Lumen\OAuth2\Eloquent\Models;
+<?php
+
+namespace Nord\Lumen\OAuth2\Eloquent\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Session extends Model
 {
-
     /**
      * @var bool
      */
@@ -25,7 +26,6 @@ class Session extends Model
         'owner_id',
         'client_redirect_uri',
     ];
-
 
     /**
      * @return BelongsTo

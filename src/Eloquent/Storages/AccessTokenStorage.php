@@ -1,4 +1,6 @@
-<?php namespace Nord\Lumen\OAuth2\Eloquent\Storages;
+<?php
+
+namespace Nord\Lumen\OAuth2\Eloquent\Storages;
 
 use Carbon\Carbon;
 use League\OAuth2\Server\Entity\AccessTokenEntity;
@@ -10,32 +12,29 @@ use Nord\Lumen\OAuth2\Exceptions\AccessTokenNotFound;
 
 class AccessTokenStorage extends EloquentStorage implements AccessTokenInterface
 {
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get($token)
     {
         $accessToken = $this->findByToken($token);
 
         if ($accessToken === null) {
-            throw new AccessDeniedException;
+            throw new AccessDeniedException();
         }
 
         return $this->createEntity($accessToken);
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getScopes(AccessTokenEntity $token)
     {
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function create($token, $expireTime, $sessionId)
     {
@@ -46,30 +45,27 @@ class AccessTokenStorage extends EloquentStorage implements AccessTokenInterface
         ]);
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function associateScope(AccessTokenEntity $token, ScopeEntity $scope)
     {
         throw new \Exception('Not implemented');
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete(AccessTokenEntity $token)
     {
         $accessToken = $this->findByToken($token->getId());
 
         if ($accessToken === null) {
-            throw new AccessTokenNotFound;
+            throw new AccessTokenNotFound();
         }
 
         $accessToken->delete();
     }
-
 
     /**
      * @param AccessToken $accessToken
@@ -86,12 +82,12 @@ class AccessTokenStorage extends EloquentStorage implements AccessTokenInterface
         return $entity;
     }
 
-
     /**
      * @param string $token
      *
-     * @return AccessToken
      * @throws AccessTokenNotFound
+     *
+     * @return AccessToken
      */
     protected function findByToken($token)
     {

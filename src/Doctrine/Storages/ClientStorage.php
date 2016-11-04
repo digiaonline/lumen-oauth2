@@ -1,18 +1,19 @@
-<?php namespace Nord\Lumen\OAuth2\Doctrine\Storages;
+<?php
 
-use Nord\Lumen\OAuth2\Exceptions\ClientNotFound;
-use Nord\Lumen\OAuth2\Doctrine\Repositories\SessionRepository;
-use Nord\Lumen\OAuth2\Doctrine\Entities\Client;
-use Nord\Lumen\OAuth2\Doctrine\Repositories\ClientRepository;
+namespace Nord\Lumen\OAuth2\Doctrine\Storages;
+
 use Doctrine\ORM\EntityManagerInterface;
 use League\OAuth2\Server\Entity\ClientEntity;
 use League\OAuth2\Server\Entity\SessionEntity;
 use League\OAuth2\Server\Storage\ClientInterface;
+use Nord\Lumen\OAuth2\Doctrine\Entities\Client;
 use Nord\Lumen\OAuth2\Doctrine\Entities\Session;
+use Nord\Lumen\OAuth2\Doctrine\Repositories\ClientRepository;
+use Nord\Lumen\OAuth2\Doctrine\Repositories\SessionRepository;
+use Nord\Lumen\OAuth2\Exceptions\ClientNotFound;
 
 class ClientStorage extends DoctrineStorage implements ClientInterface
 {
-
     /**
      * @var ClientRepository
      */
@@ -23,7 +24,6 @@ class ClientStorage extends DoctrineStorage implements ClientInterface
      */
     protected $sessionRepository;
 
-
     /**
      * ClientStorage constructor.
      *
@@ -33,13 +33,12 @@ class ClientStorage extends DoctrineStorage implements ClientInterface
     {
         parent::__construct($entityManager);
 
-        $this->clientRepository  = $this->entityManager->getRepository(Client::class);
+        $this->clientRepository = $this->entityManager->getRepository(Client::class);
         $this->sessionRepository = $this->entityManager->getRepository(Session::class);
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get($clientId, $clientSecret = null, $redirectUri = null, $grantType = null)
     {
@@ -47,15 +46,14 @@ class ClientStorage extends DoctrineStorage implements ClientInterface
         $client = $this->clientRepository->findByKey($clientId);
 
         if ($client === null) {
-            throw new ClientNotFound;
+            throw new ClientNotFound();
         }
 
         return $this->createEntity($client);
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getBySession(SessionEntity $entity)
     {
@@ -65,12 +63,11 @@ class ClientStorage extends DoctrineStorage implements ClientInterface
         $client = $this->clientRepository->findBySession($session);
 
         if ($client === null) {
-            throw new ClientNotFound;
+            throw new ClientNotFound();
         }
 
         return $this->createEntity($client);
     }
-
 
     /**
      * @param Client $client

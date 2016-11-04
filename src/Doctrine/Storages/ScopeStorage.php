@@ -1,17 +1,17 @@
-<?php namespace Nord\Lumen\OAuth2\Doctrine\Storages;
+<?php
 
-use Nord\Lumen\OAuth2\Doctrine\Repositories\ScopeRepository;
+namespace Nord\Lumen\OAuth2\Doctrine\Storages;
+
 use Doctrine\ORM\EntityManagerInterface;
 use League\OAuth2\Server\Storage\ScopeInterface;
+use Nord\Lumen\OAuth2\Doctrine\Repositories\ScopeRepository;
 
 class ScopeStorage extends DoctrineStorage implements ScopeInterface
 {
-
     /**
      * @var ScopeRepository
      */
     protected $repository;
-
 
     /**
      * ScopeStorage constructor.
@@ -25,9 +25,8 @@ class ScopeStorage extends DoctrineStorage implements ScopeInterface
         //$this->repository = $this->entityManager->getRepository(Scope::class);
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get($scope, $grantType = null, $clientId = null)
     {

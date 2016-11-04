@@ -1,4 +1,6 @@
-<?php namespace Nord\Lumen\OAuth2\Doctrine\Entities;
+<?php
+
+namespace Nord\Lumen\OAuth2\Doctrine\Entities;
 
 use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,9 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AccessToken extends Entity
 {
-
     /**
      * @ORM\Column(type="string")
+     *
      * @var string
      */
     protected $token;
@@ -19,16 +21,17 @@ class AccessToken extends Entity
     /**
      * @ORM\ManyToOne(targetEntity="Nord\Lumen\OAuth2\Doctrine\Entities\Session")
      * @ORM\JoinColumn(name="session_id", referencedColumnName="id", onDelete="CASCADE")
+     *
      * @var Session
      */
     protected $session;
 
     /**
      * @ORM\Column(type="datetime", name="expire_time")
+     *
      * @var Carbon
      */
     protected $expireTime;
-
 
     /**
      * AccessToken constructor.
@@ -39,11 +42,10 @@ class AccessToken extends Entity
      */
     public function __construct($token, Session $session, Carbon $expireTime)
     {
-        $this->token      = $token;
-        $this->session    = $session;
+        $this->token = $token;
+        $this->session = $session;
         $this->expireTime = $expireTime;
     }
-
 
     /**
      * @return string
@@ -52,7 +54,6 @@ class AccessToken extends Entity
     {
         return $this->token;
     }
-
 
     /**
      * @return Carbon
