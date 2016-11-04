@@ -1,30 +1,31 @@
-<?php namespace Nord\Lumen\OAuth2;
+<?php
+
+namespace Nord\Lumen\OAuth2;
 
 use Exception;
-use Illuminate\Contracts\Container\Container;
-use League\OAuth2\Server\Grant\AbstractGrant;
-use League\OAuth2\Server\Grant\RefreshTokenGrant;
-use League\OAuth2\Server\Storage\RefreshTokenInterface;
-use Nord\Lumen\OAuth2\Contracts\OAuth2Service as OAuth2ServiceContract;
-use Nord\Lumen\OAuth2\Exceptions\InvalidArgument;
 use Illuminate\Config\Repository as ConfigRepository;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application;
 use League\OAuth2\Server\AuthorizationServer;
+use League\OAuth2\Server\Grant\AbstractGrant;
 use League\OAuth2\Server\Grant\PasswordGrant;
+use League\OAuth2\Server\Grant\RefreshTokenGrant;
 use League\OAuth2\Server\ResourceServer;
 use League\OAuth2\Server\Storage\AccessTokenInterface;
 use League\OAuth2\Server\Storage\ClientInterface;
+use League\OAuth2\Server\Storage\RefreshTokenInterface;
 use League\OAuth2\Server\Storage\ScopeInterface;
 use League\OAuth2\Server\Storage\SessionInterface;
+use Nord\Lumen\OAuth2\Contracts\OAuth2Service as OAuth2ServiceContract;
+use Nord\Lumen\OAuth2\Exceptions\InvalidArgument;
 
 class OAuth2ServiceProvider extends ServiceProvider
 {
-
     const CONFIG_KEY = 'oauth2';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function register()
     {
@@ -33,7 +34,6 @@ class OAuth2ServiceProvider extends ServiceProvider
         $this->registerBindings($this->app, $this->app['config']);
         $this->registerFacades();
     }
-
 
     /**
      * Registers container bindings.
@@ -50,7 +50,6 @@ class OAuth2ServiceProvider extends ServiceProvider
         $container->alias(OAuth2Service::class, OAuth2ServiceContract::class);
     }
 
-
     /**
      * Registers facades.
      */
@@ -60,7 +59,6 @@ class OAuth2ServiceProvider extends ServiceProvider
             class_alias(OAuth2Facade::class, 'OAuth2');
         }
     }
-
 
     /**
      * Creates the service instance.
@@ -73,11 +71,10 @@ class OAuth2ServiceProvider extends ServiceProvider
     protected function createService(Container $container, array $config)
     {
         $authorizationServer = $this->createAuthorizationServer($container, $config);
-        $resourceServer      = $this->createResourceServer($container);
+        $resourceServer = $this->createResourceServer($container);
 
         return new OAuth2Service($authorizationServer, $resourceServer);
     }
-
 
     /**
      * Creates the authorization instance.
@@ -85,8 +82,9 @@ class OAuth2ServiceProvider extends ServiceProvider
      * @param Container $container
      * @param array     $config
      *
-     * @return AuthorizationServer
      * @throws Exception
+     *
+     * @return AuthorizationServer
      */
     protected function createAuthorizationServer(Container $container, array $config)
     {
@@ -104,7 +102,6 @@ class OAuth2ServiceProvider extends ServiceProvider
 
         return $authorizationServer;
     }
-
 
     /**
      * Configures the authorization server instance.
@@ -133,7 +130,6 @@ class OAuth2ServiceProvider extends ServiceProvider
         $this->configureGrantTypes($authorizationServer, $config['grant_types']);
     }
 
-
     /**
      * Configures the grant types for the authorization server instance.
      *
@@ -151,21 +147,21 @@ class OAuth2ServiceProvider extends ServiceProvider
             }
 
             /** @var AbstractGrant $grantType */
-            $grantType = new $params['class'];
+            $grantType = new $params['class']();
 
             if (isset($params['access_token_ttl'])) {
                 $grantType->setAccessTokenTTL($params['access_token_ttl']);
             }
 
             if ($grantType instanceof PasswordGrant) {
-                /** @var PasswordGrant $grantType */
+                /* @var PasswordGrant $grantType */
                 if (isset($params['callback'])) {
                     $grantType->setVerifyCredentialsCallback($params['callback']);
                 }
             }
 
             if ($grantType instanceof RefreshTokenGrant) {
-                /** @var RefreshTokenGrant $grantType */
+                /* @var RefreshTokenGrant $grantType */
                 if (isset($params['refresh_token_rotate'])) {
                     $grantType->setRefreshTokenRotation($params['refresh_token_rotate']);
                 }
@@ -177,7 +173,6 @@ class OAuth2ServiceProvider extends ServiceProvider
             $authorizationServer->addGrantType($grantType);
         }
     }
-
 
     /**
      * Creates the resource server.

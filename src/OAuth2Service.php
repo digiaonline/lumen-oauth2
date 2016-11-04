@@ -1,12 +1,13 @@
-<?php namespace Nord\Lumen\OAuth2;
+<?php
 
-use Nord\Lumen\OAuth2\Contracts\OAuth2Service as OAuth2ServiceContract;
+namespace Nord\Lumen\OAuth2;
+
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\ResourceServer;
+use Nord\Lumen\OAuth2\Contracts\OAuth2Service as OAuth2ServiceContract;
 
 class OAuth2Service implements OAuth2ServiceContract
 {
-
     /**
      * @var AuthorizationServer
      */
@@ -17,7 +18,6 @@ class OAuth2Service implements OAuth2ServiceContract
      */
     private $resourceServer;
 
-
     /**
      * OAuth2Server constructor.
      *
@@ -27,33 +27,32 @@ class OAuth2Service implements OAuth2ServiceContract
     public function __construct(AuthorizationServer $authorizationServer, ResourceServer $resourceServer)
     {
         $this->authorizationServer = $authorizationServer;
-        $this->resourceServer      = $resourceServer;
+        $this->resourceServer = $resourceServer;
     }
 
-
     /**
-     * @return array
      * @throws \League\OAuth2\Server\Exception\InvalidRequestException
      * @throws \League\OAuth2\Server\Exception\UnsupportedGrantTypeException
+     *
+     * @return array
      */
     public function issueAccessToken()
     {
         return $this->authorizationServer->issueAccessToken();
     }
 
-
     /**
      * @param bool        $headersOnly
      * @param null|string $accessToken
      *
-     * @return bool
      * @throws \League\OAuth2\Server\Exception\AccessDeniedException
+     *
+     * @return bool
      */
     public function validateAccessToken($headersOnly = true, $accessToken = null)
     {
         return $this->resourceServer->isValidRequest($headersOnly, $accessToken);
     }
-
 
     /**
      * @return string
@@ -66,7 +65,6 @@ class OAuth2Service implements OAuth2ServiceContract
         return $this->resourceServer->getAccessToken()->getSession()->getOwnerId();
     }
 
-
     /**
      * @return string
      */
@@ -74,7 +72,6 @@ class OAuth2Service implements OAuth2ServiceContract
     {
         return $this->resourceServer->getAccessToken()->getSession()->getOwnerType();
     }
-
 
     /**
      * @return string

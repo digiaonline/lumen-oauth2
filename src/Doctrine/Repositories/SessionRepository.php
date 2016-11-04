@@ -1,13 +1,14 @@
-<?php namespace Nord\Lumen\OAuth2\Doctrine\Repositories;
+<?php
 
+namespace Nord\Lumen\OAuth2\Doctrine\Repositories;
+
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Nord\Lumen\OAuth2\Doctrine\Entities\AccessToken;
 use Nord\Lumen\OAuth2\Doctrine\Entities\Session;
-use Doctrine\ORM\EntityRepository;
 
 class SessionRepository extends EntityRepository
 {
-
     /**
      * @param string $accessToken
      *

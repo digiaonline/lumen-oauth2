@@ -4,22 +4,20 @@ namespace Nord\Lumen\OAuth2;
 
 use Closure;
 use Illuminate\Http\Request;
+use League\OAuth2\Server\Exception\OAuthException;
 use Nord\Lumen\Core\Traits\AuthenticatesUsers;
 use Nord\Lumen\Core\Traits\CreatesHttpResponses;
-use League\OAuth2\Server\Exception\OAuthException;
 
 class OAuth2Middleware
 {
-
     use AuthenticatesUsers;
     use CreatesHttpResponses;
-
 
     /**
      * Run the request filter.
      *
-     * @param  Request $request
-     * @param  Closure $next
+     * @param Request $request
+     * @param Closure $next
      *
      * @return mixed
      */

@@ -1,43 +1,42 @@
-<?php namespace Nord\Lumen\OAuth2\Eloquent\Storages;
+<?php
 
-use Nord\Lumen\OAuth2\Eloquent\Models\Client;
+namespace Nord\Lumen\OAuth2\Eloquent\Storages;
+
 use League\OAuth2\Server\Entity\ClientEntity;
 use League\OAuth2\Server\Entity\SessionEntity;
 use League\OAuth2\Server\Storage\ClientInterface;
+use Nord\Lumen\OAuth2\Eloquent\Models\Client;
 use Nord\Lumen\OAuth2\Exceptions\ClientNotFound;
 
 class ClientStorage extends EloquentStorage implements ClientInterface
 {
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get($clientId, $clientSecret = null, $redirectUri = null, $grantType = null)
     {
         $client = Client::findByKey($clientId);
 
         if ($client === null) {
-            throw new ClientNotFound;
+            throw new ClientNotFound();
         }
 
         return $this->createEntity($client);
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getBySession(SessionEntity $entity)
     {
         $client = Client::findBySessionId($entity->getId());
 
         if ($client === null) {
-            throw new ClientNotFound;
+            throw new ClientNotFound();
         }
 
         return $this->createEntity($client);
     }
-
 
     /**
      * @param Client $client

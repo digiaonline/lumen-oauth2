@@ -1,11 +1,12 @@
-<?php namespace Nord\Lumen\OAuth2\Eloquent\Models;
+<?php
+
+namespace Nord\Lumen\OAuth2\Eloquent\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RefreshToken extends Model
 {
-
     /**
      * @var bool
      */
@@ -25,7 +26,6 @@ class RefreshToken extends Model
         'expire_time',
     ];
 
-
     /**
      * @return BelongsTo
      */
@@ -33,7 +33,6 @@ class RefreshToken extends Model
     {
         return $this->belongsTo(AccessToken::class);
     }
-
 
     /**
      * @param string $token

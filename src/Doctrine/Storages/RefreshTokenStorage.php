@@ -1,18 +1,19 @@
-<?php namespace Nord\Lumen\OAuth2\Doctrine\Storages;
+<?php
+
+namespace Nord\Lumen\OAuth2\Doctrine\Storages;
 
 use Carbon\Carbon;
 use Doctrine\ORM\EntityManagerInterface;
 use League\OAuth2\Server\Entity\RefreshTokenEntity;
 use League\OAuth2\Server\Storage\RefreshTokenInterface;
-use Nord\Lumen\OAuth2\Exceptions\RefreshTokenNotFound;
-use Nord\Lumen\OAuth2\Doctrine\Repositories\AccessTokenRepository;
 use Nord\Lumen\OAuth2\Doctrine\Entities\AccessToken;
 use Nord\Lumen\OAuth2\Doctrine\Entities\RefreshToken;
+use Nord\Lumen\OAuth2\Doctrine\Repositories\AccessTokenRepository;
 use Nord\Lumen\OAuth2\Doctrine\Repositories\RefreshTokenRepository;
+use Nord\Lumen\OAuth2\Exceptions\RefreshTokenNotFound;
 
 class RefreshTokenStorage extends DoctrineStorage implements RefreshTokenInterface
 {
-
     /**
      * @var RefreshTokenRepository
      */
@@ -22,7 +23,6 @@ class RefreshTokenStorage extends DoctrineStorage implements RefreshTokenInterfa
      * @var AccessTokenRepository
      */
     protected $accessTokenRepository;
-
 
     /**
      * RefreshTokenStorage constructor.
@@ -34,27 +34,25 @@ class RefreshTokenStorage extends DoctrineStorage implements RefreshTokenInterfa
         parent::__construct($entityManager);
 
         $this->refreshTokenRepository = $this->entityManager->getRepository(RefreshToken::class);
-        $this->accessTokenRepository  = $this->entityManager->getRepository(AccessToken::class);
+        $this->accessTokenRepository = $this->entityManager->getRepository(AccessToken::class);
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get($token)
     {
         $refreshToken = $this->refreshTokenRepository->findByToken($token);
 
         if ($refreshToken === null) {
-            throw new RefreshTokenNotFound;
+            throw new RefreshTokenNotFound();
         }
 
         return $this->createEntity($refreshToken);
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function create($token, $expireTime, $accessToken)
     {
@@ -70,22 +68,20 @@ class RefreshTokenStorage extends DoctrineStorage implements RefreshTokenInterfa
         return $this->createEntity($refreshToken);
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete(RefreshTokenEntity $token)
     {
         $refreshToken = $this->refreshTokenRepository->findByToken($token->getId());
 
         if ($refreshToken === null) {
-            throw new RefreshTokenNotFound;
+            throw new RefreshTokenNotFound();
         }
 
         $this->entityManager->remove($refreshToken);
         $this->entityManager->flush($refreshToken);
     }
-
 
     /**
      * @param RefreshToken $refreshToken

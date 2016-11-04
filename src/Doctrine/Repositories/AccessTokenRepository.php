@@ -1,11 +1,12 @@
-<?php namespace Nord\Lumen\OAuth2\Doctrine\Repositories;
+<?php
 
-use Nord\Lumen\OAuth2\Doctrine\Entities\AccessToken;
+namespace Nord\Lumen\OAuth2\Doctrine\Repositories;
+
 use Doctrine\ORM\EntityRepository;
+use Nord\Lumen\OAuth2\Doctrine\Entities\AccessToken;
 
 class AccessTokenRepository extends EntityRepository
 {
-
     /**
      * @param string $token
      *

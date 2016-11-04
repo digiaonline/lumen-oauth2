@@ -1,4 +1,6 @@
-<?php namespace Nord\Lumen\OAuth2\Doctrine\Entities;
+<?php
+
+namespace Nord\Lumen\OAuth2\Doctrine\Entities;
 
 use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,9 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class RefreshToken extends Entity
 {
-
     /**
      * @ORM\Column(type="string")
+     *
      * @var string
      */
     protected $token;
@@ -19,16 +21,17 @@ class RefreshToken extends Entity
     /**
      * @ORM\ManyToOne(targetEntity="Nord\Lumen\OAuth2\Doctrine\Entities\AccessToken")
      * @ORM\JoinColumn(name="access_token_id", referencedColumnName="id", onDelete="CASCADE")
+     *
      * @var AccessToken
      */
     protected $accessToken;
 
     /**
      * @ORM\Column(type="datetime", name="expire_time")
+     *
      * @var Carbon
      */
     protected $expireTime;
-
 
     /**
      * RefreshToken constructor.
@@ -39,11 +42,10 @@ class RefreshToken extends Entity
      */
     public function __construct($token, AccessToken $accessToken, Carbon $expireTime)
     {
-        $this->token       = $token;
+        $this->token = $token;
         $this->accessToken = $accessToken;
-        $this->expireTime  = $expireTime;
+        $this->expireTime = $expireTime;
     }
-
 
     /**
      * @return string
@@ -53,7 +55,6 @@ class RefreshToken extends Entity
         return $this->token;
     }
 
-
     /**
      * @return AccessToken
      */
@@ -62,7 +63,6 @@ class RefreshToken extends Entity
         return $this->accessToken;
     }
 
-
     /**
      * @return Carbon
      */
@@ -70,5 +70,4 @@ class RefreshToken extends Entity
     {
         return $this->expireTime;
     }
-
 }

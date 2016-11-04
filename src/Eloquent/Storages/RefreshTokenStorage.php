@@ -1,7 +1,8 @@
-<?php namespace Nord\Lumen\OAuth2\Eloquent\Storages;
+<?php
+
+namespace Nord\Lumen\OAuth2\Eloquent\Storages;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 use League\OAuth2\Server\Entity\RefreshTokenEntity;
 use League\OAuth2\Server\Storage\RefreshTokenInterface;
 use Nord\Lumen\OAuth2\Eloquent\Models\AccessToken;
@@ -10,24 +11,22 @@ use Nord\Lumen\OAuth2\Exceptions\RefreshTokenNotFound;
 
 class RefreshTokenStorage extends EloquentStorage implements RefreshTokenInterface
 {
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function get($token)
     {
         $refreshToken = $this->findByToken($token);
 
         if ($refreshToken === null) {
-            throw new RefreshTokenNotFound;
+            throw new RefreshTokenNotFound();
         }
 
         return $this->createEntity($refreshToken);
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function create($token, $expireTime, $accessToken)
     {
@@ -42,15 +41,13 @@ class RefreshTokenStorage extends EloquentStorage implements RefreshTokenInterfa
         return $this->createEntity($refreshToken);
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function delete(RefreshTokenEntity $token)
     {
         $this->findByToken($token->getId())->delete();
     }
-
 
     /**
      * @param RefreshToken $refreshToken
@@ -71,15 +68,16 @@ class RefreshTokenStorage extends EloquentStorage implements RefreshTokenInterfa
     /**
      * @param string $token
      *
-     * @return RefreshToken
      * @throws RefreshTokenNotFound
+     *
+     * @return RefreshToken
      */
     protected function findByToken($token)
     {
         $refreshToken = RefreshToken::findByToken($token);
 
         if ($refreshToken === null) {
-            throw new RefreshTokenNotFound;
+            throw new RefreshTokenNotFound();
         }
 
         return $refreshToken;

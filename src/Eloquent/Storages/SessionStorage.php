@@ -1,21 +1,22 @@
-<?php namespace Nord\Lumen\OAuth2\Eloquent\Storages;
+<?php
 
-use Nord\Lumen\OAuth2\Eloquent\Models\AccessToken;
-use Nord\Lumen\OAuth2\Eloquent\Models\Client;
-use Nord\Lumen\OAuth2\Eloquent\Models\Session;
+namespace Nord\Lumen\OAuth2\Eloquent\Storages;
+
 use League\OAuth2\Server\Entity\AccessTokenEntity;
 use League\OAuth2\Server\Entity\AuthCodeEntity;
 use League\OAuth2\Server\Entity\ScopeEntity;
 use League\OAuth2\Server\Entity\SessionEntity;
 use League\OAuth2\Server\Storage\SessionInterface;
+use Nord\Lumen\OAuth2\Eloquent\Models\AccessToken;
+use Nord\Lumen\OAuth2\Eloquent\Models\Client;
+use Nord\Lumen\OAuth2\Eloquent\Models\Session;
 use Nord\Lumen\OAuth2\Exceptions\ClientNotFound;
 use Nord\Lumen\OAuth2\Exceptions\SessionNotFound;
 
 class SessionStorage extends EloquentStorage implements SessionInterface
 {
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getByAccessToken(AccessTokenEntity $entity)
     {
@@ -25,39 +26,36 @@ class SessionStorage extends EloquentStorage implements SessionInterface
         $session = Session::find($accessToken->session_id);
 
         if ($session === null) {
-            throw new SessionNotFound;
+            throw new SessionNotFound();
         }
 
         return $this->createEntity($session);
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getByAuthCode(AuthCodeEntity $authCode)
     {
         throw new \Exception('Not implemented');
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getScopes(SessionEntity $session)
     {
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function create($ownerType, $ownerId, $clientId, $clientRedirectUri = null)
     {
         $client = Client::findByKey($clientId);
 
         if ($client === null) {
-            throw new ClientNotFound;
+            throw new ClientNotFound();
         }
 
         $session = Session::create([
@@ -70,15 +68,13 @@ class SessionStorage extends EloquentStorage implements SessionInterface
         return $session->getKey();
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function associateScope(SessionEntity $session, ScopeEntity $scope)
     {
         throw new \Exception('Not implemented');
     }
-
 
     /**
      * @param Session $session

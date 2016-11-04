@@ -1,11 +1,12 @@
-<?php namespace Nord\Lumen\OAuth2\Doctrine\Repositories;
+<?php
+
+namespace Nord\Lumen\OAuth2\Doctrine\Repositories;
 
 use Doctrine\ORM\EntityRepository;
 use Nord\Lumen\OAuth2\Doctrine\Entities\RefreshToken;
 
 class RefreshTokenRepository extends EntityRepository
 {
-
     /**
      * @param string $token
      *
