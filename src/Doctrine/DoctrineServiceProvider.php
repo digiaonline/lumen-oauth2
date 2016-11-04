@@ -26,7 +26,6 @@ class DoctrineServiceProvider extends ServiceProvider
         $this->registerContainerBindings($this->app);
     }
 
-
     protected function registerContainerBindings(Container $container)
     {
         $entityManager = $container->make(EntityManagerInterface::class);

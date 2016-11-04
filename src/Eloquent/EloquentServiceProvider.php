@@ -25,7 +25,6 @@ class EloquentServiceProvider extends ServiceProvider
         $this->registerContainerBindings($this->app);
     }
 
-
     protected function registerContainerBindings(Container $container)
     {
         $container->bind(AccessTokenStorage::class, function () {
