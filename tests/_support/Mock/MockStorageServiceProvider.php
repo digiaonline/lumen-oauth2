@@ -33,7 +33,7 @@ class MockStorageServiceProvider extends ServiceProvider
             return new MockAccessTokenStorage;
         });
 
-        $container->bind( MockClientStorage::class, function () {
+        $container->bind(MockClientStorage::class, function () {
             return new MockClientStorage;
         });
 
