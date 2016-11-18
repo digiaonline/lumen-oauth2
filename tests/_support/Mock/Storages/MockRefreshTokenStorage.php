@@ -28,6 +28,5 @@ class MockRefreshTokenStorage extends MockStorage implements RefreshTokenInterfa
      */
     public function delete(RefreshTokenEntity $token)
     {
-
     }
 }

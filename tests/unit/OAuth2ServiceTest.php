@@ -34,15 +34,15 @@ class OAuth2ServiceTest extends \Codeception\TestCase\Test
      */
     public function testAssertIssueAccessToken()
     {
-       $this->specify('verify service issueAccessToken', function () {
-           $authorizationServer = $this->createAuthorizationServer();
-           $authorizationServer->expects($this->once())
+        $this->specify('verify service issueAccessToken', function () {
+            $authorizationServer = $this->createAuthorizationServer();
+            $authorizationServer->expects($this->once())
                ->method('issueAccessToken')
                ->will($this->returnValue(self::$token));
 
-           $service = new OAuth2Service($authorizationServer, $this->createResourceServer());
-           verify($service->issueAccessToken())->equals(self::$token);
-       });
+            $service = new OAuth2Service($authorizationServer, $this->createResourceServer());
+            verify($service->issueAccessToken())->equals(self::$token);
+        });
     }
 
     /**

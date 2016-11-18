@@ -34,11 +34,13 @@ class OAuth2MiddlewareTest extends \Codeception\TestCase\Test
      */
     public function testAssertValidAccessToken()
     {
-       $this->specify('verify middleware valid access token', function () {
-           $_SERVER['HTTP_AUTHORIZATION'] = 'Bearer mF_9.B5f-4.1JqM';
-           $middleware = new OAuth2Middleware();
-           verify($middleware->handle($this->createRequest(), function () { return true; }))->equals(true);
-       });
+        $this->specify('verify middleware valid access token', function () {
+            $_SERVER['HTTP_AUTHORIZATION'] = 'Bearer mF_9.B5f-4.1JqM';
+            $middleware = new OAuth2Middleware();
+            verify($middleware->handle($this->createRequest(), function () {
+                return true;
+            }))->equals(true);
+        });
     }
 
     /**
@@ -48,7 +50,9 @@ class OAuth2MiddlewareTest extends \Codeception\TestCase\Test
     {
         $this->specify('verify middleware invalid access token', function () {
             $middleware = new OAuth2Middleware();
-            $res = $middleware->handle($this->createRequest(), function () { return true; });
+            $res = $middleware->handle($this->createRequest(), function () {
+                return true;
+            });
             verify($res)->isInstanceOf(Illuminate\Http\JsonResponse::class);
             verify((array)$res->getData())->equals(['message' => 'ERROR.ACCESS_DENIED']);
         });
