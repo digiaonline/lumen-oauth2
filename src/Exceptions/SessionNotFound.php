@@ -2,5 +2,4 @@
 
 class SessionNotFound extends Exception
 {
-
 }

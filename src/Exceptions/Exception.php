@@ -2,5 +2,4 @@
 
 class Exception extends \Exception
 {
-
 }

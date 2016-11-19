@@ -20,7 +20,6 @@ use League\OAuth2\Server\Storage\SessionInterface;
 
 class OAuth2ServiceProvider extends ServiceProvider
 {
-
     const CONFIG_KEY = 'oauth2';
 
     /**
@@ -65,8 +64,8 @@ class OAuth2ServiceProvider extends ServiceProvider
     /**
      * Creates the service instance.
      *
-     * @param Application $container
-     * @param array       $config
+     * @param Container $container
+     * @param array     $config
      *
      * @return OAuth2Service
      */
@@ -146,8 +145,8 @@ class OAuth2ServiceProvider extends ServiceProvider
     {
         // TODO: Support configuring of the remaining grant types
         foreach ($config as $name => $params) {
-            if (!isset($params['class'])) {
-                throw new InvalidArgument("Parameter 'class' must be set for grant type.");
+            if (!isset($params['class']) || !class_exists($params['class'])) {
+                continue;
             }
 
             /** @var AbstractGrant $grantType */
