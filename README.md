@@ -28,6 +28,20 @@ Run the following command to install the package through Composer:
 composer require nordsoftware/lumen-oauth2
 ```
 
+Install a storage connector by running one of the following commands:
+
+```sh
+composer require nordsoftware/lumen-oauth2-doctrine
+```
+
+or
+
+```sh
+composer require nordsoftware/lumen-oauth2-eloquent
+```
+
+or you can build your own.
+
 ### Configure
 
 Copy the configuration template in `config/oauth2.php` to your application's `config` directory and modify according to your needs.
@@ -41,18 +55,24 @@ Add the following lines to ```bootstrap/app.php```:
 $app->configure('oauth2');
 ```
 
+Depending on the storage connector in use, register the correct service provider, e.g.
+
 ```php
-$app->register('Nord\Lumen\OAuth2\Eloquent\EloquentServiceProvider');
-$app->register('Nord\Lumen\OAuth2\OAuth2ServiceProvider');
+$app->register(Nord\Lumen\OAuth2\Doctrine\DoctrineServiceProvider::class);
 ```
 
-An alternative storage connector using Doctrine can be found at https://github.com/nordsoftware/lumen-oauth2-doctrine.
-Then replace the above line `$app->register('Nord\Lumen\OAuth2\Eloquent\EloquentServiceProvider');` with `$app->register('Nord\Lumen\OAuth2\Doctrine\DoctrineServiceProvider');`.
+Then the OAuth2 module service provider.
 
 ```php
-$app->routerMiddleware([
+$app->register(Nord\Lumen\OAuth2\OAuth2ServiceProvider::class);
+```
+
+And to use the middleware for authenticating users.
+
+```php
+$app->routeMiddleware([
 	.....
-	'Nord\Lumen\OAuth2\Middleware\OAuth2Middleware',
+	Nord\Lumen\OAuth2\Middleware\OAuth2Middleware::class,
 ]);
 ```
 
