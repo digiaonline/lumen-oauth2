@@ -5,14 +5,9 @@ namespace Nord\Lumen\OAuth2\Tests;
 use Nord\Lumen\OAuth2\OAuth2ServiceProvider;
 use Nord\Lumen\OAuth2\Middleware\OAuth2Middleware;
 
-class OAuth2MiddlewareTest extends \Codeception\TestCase\Test
+class OAuth2MiddlewareTest extends \Codeception\Test\Unit
 {
     use \Codeception\Specify;
-
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
 
     /**
      * @var MockApplication
@@ -35,7 +30,7 @@ class OAuth2MiddlewareTest extends \Codeception\TestCase\Test
     public function testAssertValidAccessToken()
     {
         $this->specify('verify middleware valid access token', function () {
-            $_SERVER['HTTP_AUTHORIZATION'] = 'Bearer mF_9.B5f-4.1JqM';
+            \Helper\Unit::setAuthorizationHeader();
             $middleware = new OAuth2Middleware();
             verify($middleware->handle($this->createRequest(), function () {
                 return true;
@@ -63,10 +58,6 @@ class OAuth2MiddlewareTest extends \Codeception\TestCase\Test
      */
     private function createRequest()
     {
-        $req = $this->getMockBuilder(\Illuminate\Http\Request::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        return $req;
+        return new \Illuminate\Http\Request();
     }
 }

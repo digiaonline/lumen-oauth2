@@ -1,8 +1,2 @@
 filter:
-    excluded_paths:
-        - "vendor/*"
-        - "tests/_data/*"
-        - "tests/_output/*"
-        - "tests/_support/_generated/*"
-        - "tests/_support/Helper/*"
-        - "tests/_support/UnitTester.php"
+  paths: ["src/*", "tests/unit/*"]
