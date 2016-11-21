@@ -27,7 +27,8 @@ class MockAccessToken
     /**
      * @return array
      */
-    public static function toArray() {
+    public static function toArray()
+    {
         return [
             'access_token'  => self::$accessToken,
             'token_type'    => self::$tokenType,
