@@ -1,6 +1,6 @@
 <?php
 
-require_once 'MockStorage.php';
+namespace Nord\Lumen\OAuth2\Tests;
 
 use League\OAuth2\Server\Storage\ScopeInterface;
 

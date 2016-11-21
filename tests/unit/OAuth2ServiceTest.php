@@ -1,10 +1,12 @@
 <?php
 
+namespace Nord\Lumen\OAuth2\Tests;
+
 use Nord\Lumen\OAuth2\OAuth2Service;
 
 class OAuth2ServiceTest extends \Codeception\TestCase\Test
 {
-    use Codeception\Specify;
+    use \Codeception\Specify;
 
     /**
      * @var \UnitTester
@@ -93,11 +95,11 @@ class OAuth2ServiceTest extends \Codeception\TestCase\Test
     }
 
     /**
-     * @return League\OAuth2\Server\AuthorizationServer
+     * @return \League\OAuth2\Server\AuthorizationServer|\PHPUnit_Framework_MockObject_MockObject
      */
     private function createAuthorizationServer()
     {
-        $authorizationServer = $this->getMockBuilder(League\OAuth2\Server\AuthorizationServer::class)
+        $authorizationServer = $this->getMockBuilder(\League\OAuth2\Server\AuthorizationServer::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -105,11 +107,11 @@ class OAuth2ServiceTest extends \Codeception\TestCase\Test
     }
 
     /**
-     * @return League\OAuth2\Server\ResourceServer
+     * @return \League\OAuth2\Server\ResourceServer
      */
     private function createResourceServer()
     {
-        return new League\OAuth2\Server\ResourceServer(
+        return new \League\OAuth2\Server\ResourceServer(
             new MockSessionStorage(),
             new MockAccessTokenStorage(),
             new MockClientStorage(),

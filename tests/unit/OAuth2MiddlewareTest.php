@@ -1,13 +1,13 @@
 <?php
 
-require_once __DIR__ . '/../_support/Mock/MockStorageServiceProvider.php';
+namespace Nord\Lumen\OAuth2\Tests;
 
 use Nord\Lumen\OAuth2\OAuth2ServiceProvider;
 use Nord\Lumen\OAuth2\Middleware\OAuth2Middleware;
 
 class OAuth2MiddlewareTest extends \Codeception\TestCase\Test
 {
-    use Codeception\Specify;
+    use \Codeception\Specify;
 
     /**
      * @var \UnitTester
@@ -53,7 +53,7 @@ class OAuth2MiddlewareTest extends \Codeception\TestCase\Test
             $res = $middleware->handle($this->createRequest(), function () {
                 return true;
             });
-            verify($res)->isInstanceOf(Illuminate\Http\JsonResponse::class);
+            verify($res)->isInstanceOf(\Illuminate\Http\JsonResponse::class);
             verify((array)$res->getData())->equals(['message' => 'ERROR.ACCESS_DENIED']);
         });
     }
