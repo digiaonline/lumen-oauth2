@@ -1,19 +1,14 @@
 <?php
 
-require_once __DIR__ . '/../_support/Mock/MockStorageServiceProvider.php';
+namespace Nord\Lumen\OAuth2\Tests;
 
 use Nord\Lumen\OAuth2\OAuth2Facade;
 use Nord\Lumen\OAuth2\OAuth2Service;
 use Nord\Lumen\OAuth2\OAuth2ServiceProvider;
 
-class OAuth2ServiceProviderTest extends \Codeception\TestCase\Test
+class OAuth2ServiceProviderTest extends \Codeception\Test\Unit
 {
-    use Codeception\Specify;
-
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
+    use \Codeception\Specify;
 
     /**
      * @var MockApplication

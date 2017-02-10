@@ -1,10 +1,6 @@
 <?php
 
-require_once 'Storages/MockSessionStorage.php';
-require_once 'Storages/MockScopeStorage.php';
-require_once 'Storages/MockRefreshTokenStorage.php';
-require_once 'Storages/MockClientStorage.php';
-require_once 'Storages/MockAccessTokenStorage.php';
+namespace Nord\Lumen\OAuth2\Tests;
 
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;

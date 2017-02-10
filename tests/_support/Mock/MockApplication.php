@@ -1,5 +1,7 @@
 <?php
 
+namespace Nord\Lumen\OAuth2\Tests;
+
 use Laravel\Lumen\Application;
 
 class MockApplication extends Application
