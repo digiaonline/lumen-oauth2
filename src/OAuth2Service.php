@@ -1,5 +1,6 @@
 <?php namespace Nord\Lumen\OAuth2;
 
+use League\OAuth2\Server\Grant\AuthCodeGrant;
 use Nord\Lumen\OAuth2\Contracts\OAuth2Service as OAuth2ServiceContract;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\ResourceServer;
@@ -82,5 +83,44 @@ class OAuth2Service implements OAuth2ServiceContract
     public function getClientId()
     {
         return $this->resourceServer->getAccessToken()->getSession()->getClient()->getId();
+    }
+
+    /**
+     * Check authorize parameters
+     *
+     * @return array Authorize request parameters
+     * @throws \League\OAuth2\Server\Exception\InvalidRequestException
+     * @throws \League\OAuth2\Server\Exception\InvalidClientException
+     * @throws \League\OAuth2\Server\Exception\UnsupportedResponseTypeException
+     */
+    public function checkAuthorizeParams()
+    {
+        if ($this->authorizationServer->hasGrantType('authorization_code')) {
+            /** @var AuthCodeGrant $authGrant */
+            $authGrant = $this->authorizationServer->getGrantType('authorization_code');
+            return $authGrant->checkAuthorizeParams();
+        }
+
+        return [];
+    }
+
+    /**
+     * Parse a new authorize request
+     *
+     * @param string $type The session owner's type
+     * @param string $typeId The session owner's ID
+     * @param array $authParams The authorize request $_GET parameters
+     *
+     * @return string
+     */
+    public function newAuthorizeRequest($type, $typeId, $authParams = [])
+    {
+        if ($this->authorizationServer->hasGrantType('authorization_code')) {
+            /** @var AuthCodeGrant $authGrant */
+            $authGrant = $this->authorizationServer->getGrantType('authorization_code');
+            return $authGrant->newAuthorizeRequest($type, $typeId, $authParams);
+        }
+
+        return '';
     }
 }

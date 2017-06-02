@@ -4,12 +4,12 @@ use Exception;
 use Illuminate\Contracts\Container\Container;
 use League\OAuth2\Server\Grant\AbstractGrant;
 use League\OAuth2\Server\Grant\RefreshTokenGrant;
+use League\OAuth2\Server\Storage\AuthCodeInterface;
 use League\OAuth2\Server\Storage\RefreshTokenInterface;
 use Nord\Lumen\OAuth2\Contracts\OAuth2Service as OAuth2ServiceContract;
 use Nord\Lumen\OAuth2\Exceptions\InvalidArgument;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Lumen\Application;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Grant\PasswordGrant;
 use League\OAuth2\Server\ResourceServer;
@@ -98,6 +98,7 @@ class OAuth2ServiceProvider extends ServiceProvider
         $authorizationServer->setRefreshTokenStorage($container->make(RefreshTokenInterface::class));
         $authorizationServer->setClientStorage($container->make(ClientInterface::class));
         $authorizationServer->setScopeStorage($container->make(ScopeInterface::class));
+        $authorizationServer->setAuthCodeStorage($container->make(AuthCodeInterface::class));
 
         $this->configureAuthorizationServer($authorizationServer, $config);
 
