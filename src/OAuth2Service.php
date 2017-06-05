@@ -73,6 +73,9 @@ class OAuth2Service implements OAuth2ServiceContract
      */
     public function getResourceOwnerType()
     {
+        // TODO: Calling validateAccessToken is kind of a hack, but it is necessary in order to load the access token.
+        $this->validateAccessToken();
+
         return $this->resourceServer->getAccessToken()->getSession()->getOwnerType();
     }
 
@@ -82,6 +85,9 @@ class OAuth2Service implements OAuth2ServiceContract
      */
     public function getClientId()
     {
+        // TODO: Calling validateAccessToken is kind of a hack, but it is necessary in order to load the access token.
+        $this->validateAccessToken();
+
         return $this->resourceServer->getAccessToken()->getSession()->getClient()->getId();
     }
 

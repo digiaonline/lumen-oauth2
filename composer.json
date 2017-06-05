@@ -32,7 +32,8 @@
   },
   "suggest": {
     "nordsoftware/lumen-oauth2-eloquent": "Eloquent storage connector",
-    "nordsoftware/lumen-oauth2-doctrine": "Doctrine storage connector"
+    "nordsoftware/lumen-oauth2-doctrine": "Doctrine storage connector",
+    "nordsoftware/lumen-oauth2-doctrine-odm": "Doctrine MongoDB storage connector"
   },
   "autoload": {
     "psr-4": {
