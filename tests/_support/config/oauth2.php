@@ -42,6 +42,14 @@ return [
     */
 
     'grant_types'             => [
+        'authorization_code' => [
+            'class'            => League\OAuth2\Server\Grant\AuthCodeGrant::class,
+            'access_token_ttl' => 3600,
+        ],
+        'client_credentials' => [
+            'class'            => League\OAuth2\Server\Grant\ClientCredentialsGrant::class,
+            'access_token_ttl' => 3600,
+        ],
         'password'      => [
             'class'            => League\OAuth2\Server\Grant\PasswordGrant::class,
             'callback'         => function ($username, $password) {

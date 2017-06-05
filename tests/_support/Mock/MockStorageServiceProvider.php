@@ -5,6 +5,7 @@ namespace Nord\Lumen\OAuth2\Tests;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
 use League\OAuth2\Server\Storage\AccessTokenInterface;
+use League\OAuth2\Server\Storage\AuthCodeInterface;
 use League\OAuth2\Server\Storage\ClientInterface;
 use League\OAuth2\Server\Storage\RefreshTokenInterface;
 use League\OAuth2\Server\Storage\ScopeInterface;
@@ -33,6 +34,10 @@ class MockStorageServiceProvider extends ServiceProvider
             return new MockClientStorage;
         });
 
+        $container->bind(MockAuthCodeStorage::class, function () {
+            return new MockAuthCodeStorage();
+        });
+
         $container->bind(MockRefreshTokenStorage::class, function () {
             return new MockRefreshTokenStorage;
         });
@@ -46,6 +51,7 @@ class MockStorageServiceProvider extends ServiceProvider
         });
 
         $container->bind(AccessTokenInterface::class, MockAccessTokenStorage::class);
+        $container->bind(AuthCodeInterface::class, MockAuthCodeStorage::class);
         $container->bind(ClientInterface::class, MockClientStorage::class);
         $container->bind(RefreshTokenInterface::class, MockRefreshTokenStorage::class);
         $container->bind(ScopeInterface::class, MockScopeStorage::class);
